@@ -5,4 +5,4 @@ const AdminSchema = mongoose.Schema({
 });
 
 const Admins= mongoose.model("Admins", AdminSchema);
-module.exports = Admins ; 
+module.exports = Admins ;  
