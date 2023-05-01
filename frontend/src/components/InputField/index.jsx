@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://localhost:5000";
 
 export default function InputField() {
   const [name, setName] = useState("");
@@ -9,6 +12,7 @@ export default function InputField() {
   const [branch, setBranch] = useState("");
   const [phone, setPhone] = useState("");
   const [form, setForm] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   function handleName(e) {
     setName(e.target.value);
   }
@@ -41,19 +45,35 @@ export default function InputField() {
     const isEmailValid = validateEmail(email);
     const isPhoneValid = validatePhoneNumber(phone);
     if (isEmailValid && isPhoneValid) {
-      setForm({
-        name: name,
-        roll: roll,
-        year: year,
-        email: email,
-        branch: branch,
-        phone: phone,
-      });
-      console.log(form);
+      const data = {
+        Name: name,
+        Roll: roll,
+        Year: year,
+        Email: email,
+        Branch: branch,
+        Phone: phone,
+      };
+      setForm(data);
+      console.log(data);
+      axios
+        .post("/users", data)
+        .then((res) => {
+          console.log(res);
+          setSubmitted(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       console.log("Invalid Email or Phone Number");
     }
   }
+
+  useEffect(() => {
+    if (submitted) {
+      alert("Form Submitted Successfully");
+    }
+  }, [submitted]);
 
   return (
     <div className="form">
