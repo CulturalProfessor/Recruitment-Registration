@@ -13,24 +13,18 @@ export default function InputField() {
   const [phone, setPhone] = useState("");
   const [form, setForm] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  function handleName(e) {
-    setName(e.target.value);
+  const [rateLimited, setRateLimited] = useState(false);
+  const [remainingRequests, setRemainingRequests] = useState(5);
+  const [resetTime, setResetTime] = useState(Date.now());
+
+  function validateName(name) {
+    const regex = /^[a-zA-Z\s]*$/;
+    if (regex.test(name)) {
+      setName(name);
+      return true;
+    }
   }
-  function handleRoll(e) {
-    setRoll(e.target.value);
-  }
-  function handleYear(e) {
-    setYear(e.target.value);
-  }
-  function handleEmail(e) {
-    setEmail(e.target.value);
-  }
-  function handleBranch(e) {
-    setBranch(e.target.value);
-  }
-  function handlePhone(e) {
-    setPhone(e.target.value);
-  }
+
   function validateEmail(email) {
     const regex = /^[^\s@]+@akgec\.ac\.in$/;
     return regex.test(email);
@@ -40,11 +34,16 @@ export default function InputField() {
     const regex = /^[0-9]{10}$/;
     return regex.test(phone);
   }
+  function resetForm(){
+
+  }
 
   function handleForm() {
+    const isNameValid = validateName(name);
     const isEmailValid = validateEmail(email);
     const isPhoneValid = validatePhoneNumber(phone);
-    if (isEmailValid && isPhoneValid) {
+
+    if (isEmailValid && isPhoneValid && isNameValid) {
       const data = {
         Name: name,
         Roll: roll,
@@ -54,7 +53,6 @@ export default function InputField() {
         Phone: phone,
       };
       setForm(data);
-      console.log(data);
       axios
         .post("/users", data)
         .then((res) => {
@@ -62,42 +60,100 @@ export default function InputField() {
           setSubmitted(true);
         })
         .catch((err) => {
-          console.log(err);
+          if (err.response && err.response.status === 429) {
+            const reset = err.response.headers["x-ratelimit-reset"];
+            setRateLimited(true);
+            setResetTime(reset * 1000);
+          } else {
+            alert("Registration Failed");
+            setSubmitted(false);
+            console.log(err);
+          }
         });
     } else {
-      console.log("Invalid Email or Phone Number");
+      if (!isNameValid) {
+        console.log("Invalid Name");
+      }
+      if (!isEmailValid) {
+        console.log("Invalid Email");
+      }
+      if (!isPhoneValid) {
+        console.log("Invalid Phone Number");
+      }
     }
   }
 
   useEffect(() => {
+    let intervalId;
+    if (rateLimited) {
+      intervalId = setInterval(() => {
+        if (Date.now() >= resetTime) {
+          setRemainingRequests(5);
+          setRateLimited(false);
+        } else {
+          const remainingTime = Math.ceil((resetTime - Date.now()) / 1000);
+          setRemainingRequests(0);
+          setTimeout(() => {
+            setRemainingRequests(5);
+            setRateLimited(false);
+          }, remainingTime * 1000);
+        }
+      }, 1000);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [rateLimited, resetTime]);
+
+  useEffect(() => {
     if (submitted) {
       alert("Form Submitted Successfully");
+      setName("");
+      setRoll("");
+      setYear("");
+      setEmail("");
+      setBranch("");
+      setPhone("");
+      setSubmitted(false);
     }
   }, [submitted]);
 
   return (
     <div className="form">
-      <input type="text" placeholder="Name" onChange={(e) => handleName(e)} />
+      <input
+        type="text"
+        placeholder="Name"
+        onChange={(e) => setName(e.target.value)}
+        value={name}
+      />
       <input
         type="number"
         placeholder="Roll No."
-        onChange={(e) => handleRoll(e)}
+        onChange={(e) => setRoll(e.target.value)}
+        value={roll}
       ></input>
-      <input type="text" placeholder="Year" onChange={(e) => handleYear(e)} />
+      <input
+        type="text"
+        placeholder="Year"
+        onChange={(e) => setYear(e.target.value)}
+        value={year}
+      />
       <input
         type="email"
         placeholder="College Email Id"
-        onChange={(e) => handleEmail(e)}
+        onChange={(e) => setEmail(e.target.value)}
+        value={email}
       />
       <input
         type="text"
         placeholder="Branch"
-        onChange={(e) => handleBranch(e)}
+        onChange={(e) => setBranch(e.target.value)}
+        value={branch}
       />
       <input
         type="number"
         placeholder="Phone Number"
-        onChange={(e) => handlePhone(e)}
+        onChange={(e) => setPhone(e.target.value)}
+        value={phone}
       />
       <button onClick={() => handleForm()}>Submit</button>
     </div>
