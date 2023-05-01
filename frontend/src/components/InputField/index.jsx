@@ -34,9 +34,6 @@ export default function InputField() {
     const regex = /^[0-9]{10}$/;
     return regex.test(phone);
   }
-  function resetForm(){
-
-  }
 
   function handleForm() {
     const isNameValid = validateName(name);
@@ -126,7 +123,7 @@ export default function InputField() {
         value={name}
       />
       <input
-        type="number"
+        type="text"
         placeholder="Roll No."
         onChange={(e) => setRoll(e.target.value)}
         value={roll}

@@ -8,10 +8,10 @@ const PASSWORD = process.env.EMAIL_PASSWORD;
 const registrationSchema = Joi.object({
   Name: Joi.string().required(),
   Branch: Joi.string().required(),
-  Roll: Joi.number().required(),
+  Roll: Joi.string().required(),
   Email: Joi.string().email().required(),
   Phone: Joi.string().length(10).required(),
-  Year: Joi.number().required(),
+  Year: Joi.string().required(),
 });
 
 
