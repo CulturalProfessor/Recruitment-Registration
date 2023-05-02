@@ -1,12 +1,7 @@
 .frontForm {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   padding: 2em;
-  border: 2px solid red;
-  width: 380px;
-  height: 435px;
 }
 
 body {

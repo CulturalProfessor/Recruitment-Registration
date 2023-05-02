@@ -1,0 +1,13 @@
+.frontForm {
+    z-index: 2;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    top: 8em;
+    right: 0em;
+    opacity: 0.9;
+}
+.backForm {
+  z-index: 1;
+  position: absolute;
+}
