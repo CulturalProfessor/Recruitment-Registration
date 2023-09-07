@@ -1,13 +1,13 @@
 import React from "react";
 import FrontForm from "./components/FrontForm";
-import Backform from "./components/Backform";
+import Background from "./components/Background";
 import "./App.css";
 
 export default function App() {
   return (
-    <div className="form">
+    <div className="mainPage">
       <div className="backForm">
-        <Backform />
+        <Background />
       </div>
       <div className="frontForm">
         <FrontForm />

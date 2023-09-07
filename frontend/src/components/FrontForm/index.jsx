@@ -5,14 +5,15 @@ import "./style.css";
 export default function FrontForm() {
   return (
     <div class="formbody">
-      <img src="../osslogo.png" className="logo" alt="logo" />
-      <div className="frontForm">
-        <h1>OpenDevX</h1>
-        <InputField />
+      <div className="formHeading">
+        <img src="../osslogo.png" className="logo" alt="logo" />
+        <h1 className="formHeadingElement">Team OSS </h1>
       </div>
-      <div class="leftside">
-        <img src="../earth.png" className="earth" alt="earth" />
-        <img src="../peoples.png" className="people" alt="people" />
+      <h2 className="formHeadingElement">Presents</h2>
+      <h1 className="formHeadingElement tracking-in-expand ">Recruitment'23</h1>
+      <div className="kidsContainer">
+        <img src="../public/kids.svg" alt="" id="kidsImage" />
+        <InputField />
       </div>
     </div>
   );

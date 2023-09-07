@@ -115,44 +115,50 @@ export default function InputField() {
   }, [submitted]);
 
   return (
-    <div className="form">
+    <div className="formFieldContainer">
       <input
         type="text"
         placeholder="Name"
         onChange={(e) => setName(e.target.value)}
         value={name}
+        className="formField"
       />
       <input
         type="text"
         placeholder="Roll No."
         onChange={(e) => setRoll(e.target.value)}
         value={roll}
+        className="formField"
       ></input>
       <input
         type="text"
         placeholder="Year"
         onChange={(e) => setYear(e.target.value)}
         value={year}
+        className="formField"
       />
       <input
         type="email"
         placeholder="College Email Id"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
+        className="formField"
       />
       <input
         type="text"
         placeholder="Branch"
         onChange={(e) => setBranch(e.target.value)}
         value={branch}
+        className="formField"
       />
       <input
         type="number"
         placeholder="Phone Number"
         onChange={(e) => setPhone(e.target.value)}
         value={phone}
+        className="formField"
       />
-      <button onClick={() => handleForm()}>Submit</button>
+      <button onClick={() => handleForm()} className="registerButton">Register</button>
     </div>
   );
 }
