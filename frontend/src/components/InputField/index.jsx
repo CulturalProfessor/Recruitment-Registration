@@ -7,7 +7,6 @@ axios.defaults.baseURL = "http://localhost:5000";
 export default function InputField() {
   const [name, setName] = useState("");
   const [roll, setRoll] = useState("");
-  const [year, setYear] = useState("");
   const [email, setEmail] = useState("");
   const [branch, setBranch] = useState("");
   const [phone, setPhone] = useState("");
@@ -44,7 +43,6 @@ export default function InputField() {
       const data = {
         Name: name,
         Roll: roll,
-        Year: year,
         Email: email,
         Branch: branch,
         Phone: phone,
@@ -106,7 +104,6 @@ export default function InputField() {
       alert("Form Submitted Successfully");
       setName("");
       setRoll("");
-      setYear("");
       setEmail("");
       setBranch("");
       setPhone("");
@@ -130,13 +127,6 @@ export default function InputField() {
         value={roll}
         className="formField"
       ></input>
-      <input
-        type="text"
-        placeholder="Year"
-        onChange={(e) => setYear(e.target.value)}
-        value={year}
-        className="formField"
-      />
       <input
         type="email"
         placeholder="College Email Id"

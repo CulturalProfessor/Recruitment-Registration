@@ -11,16 +11,16 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 1rem;
-  margin: .1rem;
-  border-radius: 0.5rem;
-  border: 1px solid black;
+  padding: 1rem 2rem;
+  margin: .25rem;
+  border-radius: 0.75rem;
   font-size: 1rem;
+  border: 3px solid black;
 }
 .formField:hover {
   background-color: #f8f8f8;
-  box-shadow: #e5e5e5   0px 0px 10px 0px;
-  transition: 0.1s ease-out;
+  box-shadow: #23e550   0px 0px 10px 0px;
+  transition: 0.25s ease-out;
 }
 .registerButton {
   display: flex;
@@ -31,8 +31,8 @@
   margin: 1rem;
   padding: 1rem;
   border-radius: 0.5rem;
-  border: 1px solid black;
-  font-size: 1.2rem;
+  border: 2px solid #23e550;
+  font-size: 1.5rem;
   background-color: #2dba4e;
   color: white;
 }
