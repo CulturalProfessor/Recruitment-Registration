@@ -27,7 +27,9 @@ export default function InputField() {
   }
 
   function validateRoll(roll) {
-    const regex = /^[0-9]{10}$/;
+    const regex = /^[0-9]{1,10}$/;
+    console.log("Valid Roll", roll);
+    console.log("Valid Roll", regex.test(roll));
     if (regex.test(roll)) {
       setRoll(roll);
       return true;
@@ -82,7 +84,7 @@ export default function InputField() {
         alert("Invalid Name");
       }
       if (!isRollValid) {
-        console.log("Invalid Student Number");
+        console.log("Invalid Roll", isRollValid);
         alert("Invalid Student Number");
       }
       if (!isEmailValid) {
