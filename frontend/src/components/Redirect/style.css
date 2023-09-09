@@ -9,14 +9,15 @@
     align-items: center;
     border: 0px solid #23e550;
     border-radius: 1rem;
-    box-shadow: #23e550 0px 0px 30px 10px;
+    box-shadow: #23e550 0px 0px 20px 5px;
     padding: 1rem;
     background-color: #f8f8f8;
 }
 @media screen and (max-width: 1000px) {
     .redirectContainer{
-        height:40vh;
-        width: 70vw;
+        height:50vh;
+        margin-top: 5rem;
+        width: 75vw;
         font-size: .8rem;
     }
 }
