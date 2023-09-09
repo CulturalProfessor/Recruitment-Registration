@@ -45,14 +45,28 @@ export default function InputField() {
     const regex = /^[0-9]{10}$/;
     return regex.test(phone);
   }
+  function validateBranch(branch) {
+    const regex = /^[a-zA-Z0-9\s-]+$/;
+    if (regex.test(branch)) {
+      setBranch(branch);
+      return true;
+    }
+  }
 
   function handleForm() {
     const isNameValid = validateName(name);
     const isEmailValid = validateEmail(email);
     const isPhoneValid = validatePhoneNumber(phone);
     const isRollValid = validateRoll(roll);
+    const isBranchValid = validateBranch(branch);
 
-    if (isEmailValid && isPhoneValid && isNameValid && isRollValid) {
+    if (
+      isEmailValid &&
+      isPhoneValid &&
+      isNameValid &&
+      isRollValid &&
+      isBranchValid
+    ) {
       const data = {
         Name: name,
         Branch: branch,
@@ -83,15 +97,19 @@ export default function InputField() {
         console.log("Invalid Name");
         alert("Invalid Name");
       }
-      if (!isRollValid) {
+      else if (!isRollValid) {
         console.log("Invalid Roll", isRollValid);
         alert("Invalid Student Number");
       }
-      if (!isEmailValid) {
+      else if (!isEmailValid) {
         console.log("Invalid Email");
         alert("Invalid Email");
       }
-      if (!isPhoneValid) {
+      else if (!isBranchValid) {
+        console.log("Invalid Branch");
+        alert("Invalid Branch");
+      }
+      else if (!isPhoneValid) {
         console.log("Invalid Phone Number");
         alert("Invalid Phone Number");
       }

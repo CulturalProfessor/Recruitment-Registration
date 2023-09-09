@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import routes from "./routes/routes.js";
+import ExpressMongoSanitize from "express-mongo-sanitize";
+
 dotenv.config();
 
 const uri = process.env.MONGO_URI;
@@ -14,6 +16,7 @@ const corsOptions = {
   };
 const app = express();
 
+app.use(ExpressMongoSanitize());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
