@@ -25,36 +25,36 @@ export default function FrontForm() {
         </li>
         <div className="softwareImages">
           <img
-            src="../public/linux.png"
+            src="/linux.png"
             className="softwareImageElement scale-in-center"
           />
           <img
-            src="../public/docker.png"
+            src="/docker.png"
             className="softwareImageElement scale-in-center"
           />
           <img
-            src="../public/github.png"
+            src="/github.png"
             className="softwareImageElement scale-in-center"
           />
           <img
-            src="../public/kubernetes.png"
+            src="/kubernetes.png"
             className="softwareImageElement  scale-in-center"
           />
           <img
-            src="../public/chromium.png"
+            src="/chromium.png"
             className="softwareImageElement scale-in-center"
           />
           <img
-            src="../public/postgresql.png"
+            src="/postgresql.png"
             className="softwareImageElement scale-in-center "
           />
           <img
-            src="../public/flutter.png"
+            src="/flutter.png"
             className="softwareImageElement scale-in-center"
           />
         </div>
         <div className="kidsContainer">
-          <img src="../public/kids.svg" alt="" id="kidsImage" />
+          <img src="/kids.svg" alt="" id="kidsImage" />
           <InputField />
         </div>
       </div>
