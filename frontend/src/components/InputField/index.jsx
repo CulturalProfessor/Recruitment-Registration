@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
 
@@ -15,11 +16,20 @@ export default function InputField() {
   const [rateLimited, setRateLimited] = useState(false);
   const [remainingRequests, setRemainingRequests] = useState(5);
   const [resetTime, setResetTime] = useState(Date.now());
+  const navigate = useNavigate();
 
   function validateName(name) {
     const regex = /^[a-zA-Z\s]*$/;
     if (regex.test(name)) {
       setName(name);
+      return true;
+    }
+  }
+
+  function validateRoll(roll) {
+    const regex = /^[0-9]{10}$/;
+    if (regex.test(roll)) {
+      setRoll(roll);
       return true;
     }
   }
@@ -38,21 +48,22 @@ export default function InputField() {
     const isNameValid = validateName(name);
     const isEmailValid = validateEmail(email);
     const isPhoneValid = validatePhoneNumber(phone);
+    const isRollValid = validateRoll(roll);
 
-    if (isEmailValid && isPhoneValid && isNameValid) {
+    if (isEmailValid && isPhoneValid && isNameValid && isRollValid) {
       const data = {
         Name: name,
+        Branch: branch,
         Roll: roll,
         Email: email,
-        Branch: branch,
         Phone: phone,
       };
       setForm(data);
       axios
         .post("/users", data)
         .then((res) => {
-          console.log(res);
           setSubmitted(true);
+          navigate("/redirect");
         })
         .catch((err) => {
           if (err.response && err.response.status === 429) {
@@ -68,12 +79,19 @@ export default function InputField() {
     } else {
       if (!isNameValid) {
         console.log("Invalid Name");
+        alert("Invalid Name");
+      }
+      if (!isRollValid) {
+        console.log("Invalid Student Number");
+        alert("Invalid Student Number");
       }
       if (!isEmailValid) {
         console.log("Invalid Email");
+        alert("Invalid Email");
       }
       if (!isPhoneValid) {
         console.log("Invalid Phone Number");
+        alert("Invalid Phone Number");
       }
     }
   }
@@ -101,7 +119,6 @@ export default function InputField() {
 
   useEffect(() => {
     if (submitted) {
-      alert("Form Submitted Successfully");
       setName("");
       setRoll("");
       setEmail("");
@@ -121,9 +138,11 @@ export default function InputField() {
         className="formField"
       />
       <input
-        type="text"
-        placeholder="Roll No."
-        onChange={(e) => setRoll(e.target.value)}
+        type="number"
+        placeholder="Student Number"
+        onChange={(e) => {
+          setRoll(e.target.value);
+        }}
         value={roll}
         className="formField"
       ></input>
@@ -148,7 +167,9 @@ export default function InputField() {
         value={phone}
         className="formField"
       />
-      <button onClick={() => handleForm()} className="registerButton">Register</button>
+      <button onClick={() => handleForm()} className="registerButton">
+        Register
+      </button>
     </div>
   );
 }

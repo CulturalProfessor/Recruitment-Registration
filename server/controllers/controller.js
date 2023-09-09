@@ -7,11 +7,10 @@ const PASSWORD = process.env.EMAIL_PASSWORD;
 
 const registrationSchema = Joi.object({
   Name: Joi.string().required(),
-  Branch: Joi.string().required(),
+  Branch: Joi.string().required().uppercase(),
   Roll: Joi.string().required(),
   Email: Joi.string().email().required(),
   Phone: Joi.string().length(10).required(),
-  Year: Joi.string().required(),
 });
 
 
@@ -32,7 +31,6 @@ export const create = async (req, res) => {
         Roll,
         Email,
         Phone,
-        Year,
       });
     }
     res.status(201).json("You have been registered successfully");

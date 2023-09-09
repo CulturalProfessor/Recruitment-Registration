@@ -1,0 +1,29 @@
+.redirectContainer{
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    border: 6px solid #23e550;
+    border-radius: 1rem;
+    box-shadow: #23e550 0px 0px 10px 0px;
+    padding: 1rem;
+    background-color: #f8f8f8;
+}
+@media screen and (max-width: 1000px) {
+    .redirectContainer{
+        height:40vh;
+        width: 70vw;
+        font-size: .8rem;
+    }
+}
+
+#redirectImage{
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    border-radius: 1rem;
+}
