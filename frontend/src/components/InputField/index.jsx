@@ -16,6 +16,7 @@ export default function InputField() {
   const [rateLimited, setRateLimited] = useState(false);
   const [remainingRequests, setRemainingRequests] = useState(5);
   const [resetTime, setResetTime] = useState(Date.now());
+  const [hostelOrDayScholar, setHostelOrDayScholar] = useState("");
   const navigate = useNavigate();
 
   function validateName(name) {
@@ -72,6 +73,7 @@ export default function InputField() {
         Branch: branch,
         Roll: roll,
         Email: email,
+        Hostel: hostelOrDayScholar,
         Phone: phone,
       };
       setForm(data);
@@ -96,20 +98,16 @@ export default function InputField() {
       if (!isNameValid) {
         console.log("Invalid Name");
         alert("Invalid Name");
-      }
-      else if (!isRollValid) {
+      } else if (!isRollValid) {
         console.log("Invalid Roll", isRollValid);
         alert("Invalid Student Number");
-      }
-      else if (!isEmailValid) {
+      } else if (!isEmailValid) {
         console.log("Invalid Email");
         alert("Invalid Email");
-      }
-      else if (!isBranchValid) {
+      } else if (!isBranchValid) {
         console.log("Invalid Branch");
         alert("Invalid Branch");
-      }
-      else if (!isPhoneValid) {
+      } else if (!isPhoneValid) {
         console.log("Invalid Phone Number");
         alert("Invalid Phone Number");
       }
@@ -144,6 +142,7 @@ export default function InputField() {
       setEmail("");
       setBranch("");
       setPhone("");
+      setHostelOrDayScholar("");
       setSubmitted(false);
     }
   }, [submitted]);
@@ -180,6 +179,21 @@ export default function InputField() {
         value={branch}
         className="formField"
       />
+      <select
+        className="formField hostelOrDayScholar"
+        onChange={(e) => setHostelOrDayScholar(e.target.value)}
+        value={hostelOrDayScholar}
+      >
+        <option
+          value=""
+          disabled
+          selected
+          className="hostelOption"
+          label="Hostel or Day Scholar"
+        ></option>
+        <option value="Hostel">Hostel</option>
+        <option value="Day Scholar">Day Scholar</option>
+      </select>
       <input
         type="number"
         placeholder="Phone Number"

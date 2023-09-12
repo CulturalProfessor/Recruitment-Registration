@@ -49,6 +49,13 @@
   cursor: pointer;
   transition: 0.1s ease-out;
 }
+.hostelOrDayScholar{
+  width: 122.5%;
+  background-color: white;
+}
+.hostelOption{
+  color: grey;
+}
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,

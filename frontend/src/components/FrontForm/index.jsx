@@ -14,7 +14,7 @@ export default function FrontForm() {
       <div className="eventDetailsContainer">
         <div className="eventDetails">
           <li>
-            <h2>15th September</h2>
+            <h2>20th September</h2>
           </li>
           <li>
             <h2>4:00 PM - 7:00 PM</h2>

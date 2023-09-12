@@ -1,6 +1,6 @@
 import Registrations from "../models/student.js";
 import dotenv from "dotenv";
-import Joi from 'joi';
+import Joi from "joi";
 
 dotenv.config();
 const PASSWORD = process.env.EMAIL_PASSWORD;
@@ -10,9 +10,9 @@ const registrationSchema = Joi.object({
   Branch: Joi.string().required().uppercase(),
   Roll: Joi.string().required(),
   Email: Joi.string().email().required(),
+  Hostel: Joi.string().required(),
   Phone: Joi.string().length(10).required(),
 });
-
 
 export const create = async (req, res) => {
   try {
@@ -20,7 +20,7 @@ export const create = async (req, res) => {
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
-    const { Name, Branch, Roll, Email, Phone, Year } = req.body;
+    const { Name, Branch, Roll, Email, Phone, Hostel } = req.body;
     const oldUser = await Registrations.findOne({ Email, Phone });
     if (oldUser) {
       return res.status(400).json({ message: "User already exists" });
@@ -30,6 +30,7 @@ export const create = async (req, res) => {
         Branch,
         Roll,
         Email,
+        Hostel,
         Phone,
       });
     }
