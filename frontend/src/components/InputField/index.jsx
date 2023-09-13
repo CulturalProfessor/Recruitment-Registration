@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
-dotenv.config()
 
-axios.defaults.baseURL = process.env.BACKEND;
+axios.defaults.baseURL = "https://recruitment-registration-backend.onrender.com";
 
 export default function InputField() {
   const [name, setName] = useState("");
