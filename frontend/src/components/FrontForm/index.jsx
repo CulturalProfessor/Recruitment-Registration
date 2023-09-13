@@ -13,14 +13,14 @@ export default function FrontForm() {
       <h1 className="formHeadingElement tracking-in-expand ">Recruitment'23</h1>
       <div className="eventDetailsContainer">
         <div className="eventDetails">
-          <li>
+          <li className="list">
             <h2>20th September</h2>
           </li>
-          <li>
+          <li className="list">
             <h2>4:00 PM - 7:00 PM</h2>
           </li>
         </div>
-        <li>
+        <li className="list">
           <h2>4th Floor CS/IT Block</h2>
         </li>
         <div className="softwareImages">

@@ -10,8 +10,6 @@ body {
   padding: 1rem;
 }
 .frontForm {
-  width: fit-content;
-  height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content:center;

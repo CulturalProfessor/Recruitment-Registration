@@ -21,7 +21,11 @@ export const create = async (req, res) => {
       return res.status(400).json({ message: error.details[0].message });
     }
     const { Name, Branch, Roll, Email, Phone, Hostel } = req.body;
-    const oldUser = await Registrations.findOne({ Email, Phone });
+    const oldUser = await Registrations.findOne({
+      $or: [{ Email }, { Phone }, { Roll }],
+    });
+    console.log("Old User: ",oldUser);
+
     if (oldUser) {
       return res.status(400).json({ message: "User already exists" });
     } else {

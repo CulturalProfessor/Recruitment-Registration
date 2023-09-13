@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: .8rem;
 }
 .formField {
   display: flex;
@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 1rem 2rem;
+  padding: .8rem 2rem;
   margin: 0.25rem;
   border-radius: 0.75rem;
   font-size: 1rem;
@@ -23,11 +23,6 @@
   transition: 0.25s ease-out;
 }
 
-@media screen and (max-width: 1000px) {
-  .formField {
-    font-size: 0.75rem;
-  }
-}
 .registerButton {
   display: flex;
   flex-direction: row;
@@ -35,7 +30,7 @@
   justify-content: center;
   width: 100%;
   margin: 1rem;
-  padding: 1rem;
+  padding: .8rem;
   border-radius: 0.5rem;
   border: 2px solid #23e550;
   font-size: 1.5rem;
@@ -55,6 +50,23 @@
 }
 .hostelOption{
   color: grey;
+}
+.logo{
+  width: 7%;
+  height: 7%;
+}
+
+@media screen and (max-width: 1000px) {
+  .formField {
+    font-size: 0.75rem;
+  }
+  .hostelOrDayScholar{
+    width: 130.5%;
+  }
+  .registerButton{
+    padding: .8rem;
+    font-size: 1rem;
+  }
 }
 
 /* Chrome, Safari, Edge, Opera */

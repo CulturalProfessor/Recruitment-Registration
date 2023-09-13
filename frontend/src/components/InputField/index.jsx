@@ -29,8 +29,6 @@ export default function InputField() {
 
   function validateRoll(roll) {
     const regex = /^[0-9]{1,10}$/;
-    console.log("Valid Roll", roll);
-    console.log("Valid Roll", regex.test(roll));
     if (regex.test(roll)) {
       setRoll(roll);
       return true;
@@ -78,12 +76,7 @@ export default function InputField() {
       };
       setForm(data);
       axios
-        .post("/users", data,{
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
-          },
-        })
+        .post("/users", data)
         .then((res) => {
           setSubmitted(true);
           navigate("/redirect");
