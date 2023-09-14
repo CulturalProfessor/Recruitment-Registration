@@ -12,6 +12,7 @@ const registrationSchema = Joi.object({
   Roll: Joi.string().required(),
   Email: Joi.string().email().required(),
   Hostel: Joi.string().required(),
+  Domain: Joi.string().required(),
   Phone: Joi.string().length(10).required(),
 });
 
@@ -22,7 +23,8 @@ export const create = async (req, res) => {
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    const { Name, Gender, Branch, Roll, Email, Phone, Hostel } = req.body;
+    const { Name, Gender, Branch, Roll, Email, Phone, Domain, Hostel } =
+      req.body;
     const oldUser = await Registrations.findOne({
       $or: [{ Email }, { Phone }, { Roll }],
     });
@@ -37,6 +39,7 @@ export const create = async (req, res) => {
         Roll,
         Email,
         Hostel,
+        Domain,
         Phone,
       });
     }

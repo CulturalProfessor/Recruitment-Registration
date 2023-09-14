@@ -53,6 +53,8 @@ export default function FrontForm() {
             className="softwareImageElement scale-in-center"
           />
         </div>
+        <h3 className="notice">Please register yourself on HackerRank with College Mail ID before test</h3>
+
         <div className="kidsContainer">
           <img src="/kids.svg" alt="" id="kidsImage" />
           <InputField />

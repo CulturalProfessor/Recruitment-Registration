@@ -11,12 +11,13 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: .8rem 2rem;
+  padding: .6rem 1.5rem;
   outline: none;
   margin: 0.25rem;
   border-radius: 0.75rem;
   font-size: 1rem;
   border: 3px solid black;
+  cursor: pointer;
 }
 .formField:hover {
   background-color: #f8f8f8;
@@ -31,7 +32,7 @@
   justify-content: center;
   width: 100%;
   margin: 1rem;
-  padding: .8rem;
+  padding: .6rem;
   border-radius: 0.5rem;
   border: 2px solid #23e550;
   font-size: 1.5rem;
@@ -46,7 +47,7 @@
   transition: 0.1s ease-out;
 }
 .selectField {
-  width: 122.5%;
+  width: 120%;
   background-color: white;
   
 }
@@ -63,7 +64,7 @@
     font-size: 0.75rem;
   }
   .selectField{
-    width: 130.5%;
+    width: 125%;
   }
   .registerButton{
     padding: .8rem;

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
 
-axios.defaults.baseURL = "https://recruitment-registration-backend.onrender.com/";
+axios.defaults.baseURL = "https://recruitment-registration-backend.onrender.com";
 
 export default function InputField() {
   const [name, setName] = useState("");
@@ -18,6 +18,7 @@ export default function InputField() {
   const [resetTime, setResetTime] = useState(Date.now());
   const [hostelOrDayScholar, setHostelOrDayScholar] = useState("");
   const [gender, setGender] = useState("");
+  const [domain, setDomain] = useState("");
   const navigate = useNavigate();
 
   function validateName(name) {
@@ -61,6 +62,7 @@ export default function InputField() {
       branch == "" ||
       phone == "" ||
       hostelOrDayScholar == "" ||
+      domain == "" ||
       gender == ""
     ) {
       alert("Please fill all the fields");
@@ -89,6 +91,7 @@ export default function InputField() {
         Roll: roll,
         Email: email,
         Hostel: hostelOrDayScholar,
+        Domain: domain,
         Phone: phone,
       };
       setForm(data);
@@ -185,7 +188,7 @@ export default function InputField() {
           value=""
           disabled
           className="selectFieldOption"
-          label="Gender?"
+          label="Gender ?"
         ></option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
@@ -223,12 +226,25 @@ export default function InputField() {
           value=""
           disabled
           className="selectFieldOption"
-          label="Hostel or Day Scholar?"
+          label="Hostel or Day Scholar ?"
         ></option>
         <option value="Hostel">Hostel</option>
         <option value="Day Scholar">Day Scholar</option>
       </select>
-
+      <select
+        className="formField selectField"
+        onChange={(e) => setDomain(e.target.value)}
+        value={domain}
+      >
+        <option
+          value=""
+          disabled
+          className="selectFieldOption"
+          label="Domain ?"
+        ></option>
+        <option value="Developer">Developer</option>
+        <option value="Designer">Designer</option>
+      </select>
       <input
         type="number"
         placeholder="Phone Number(10 digits)"

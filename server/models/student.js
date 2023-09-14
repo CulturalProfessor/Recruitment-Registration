@@ -7,6 +7,7 @@ const studentSchema = mongoose.Schema({
   Roll: { type: String, required: true, unique: true },
   Email: { type: String, required: true, unique: true },
   Hostel: { type: String, required: true },
+  Domain: { type: String, required: true },
   Phone: { type: String, required: true, unique: true },
 });
 

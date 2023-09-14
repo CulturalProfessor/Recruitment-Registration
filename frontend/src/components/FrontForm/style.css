@@ -71,6 +71,9 @@
 .softwareImageElement:hover {
   animation: shake 0.7s ease-in-out;
 }
+.notice{
+  text-align: center;
+}
 @media only screen and (max-width: 1000px) {
   .kidsContainer {
     flex-direction: column;
