@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "https://recruitment-registration-backend.onrender.com/";
 
 export default function InputField() {
   const [name, setName] = useState("");
