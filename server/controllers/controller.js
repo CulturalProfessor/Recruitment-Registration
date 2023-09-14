@@ -7,7 +7,8 @@ const PASSWORD = process.env.EMAIL_PASSWORD;
 
 const registrationSchema = Joi.object({
   Name: Joi.string().required(),
-  Branch: Joi.string().required().uppercase(),
+  Gender: Joi.string().required(),
+  Branch: Joi.string().required(),
   Roll: Joi.string().required(),
   Email: Joi.string().email().required(),
   Hostel: Joi.string().required(),
@@ -20,17 +21,18 @@ export const create = async (req, res) => {
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
-    const { Name, Branch, Roll, Email, Phone, Hostel } = req.body;
+
+    const { Name, Gender, Branch, Roll, Email, Phone, Hostel } = req.body;
     const oldUser = await Registrations.findOne({
       $or: [{ Email }, { Phone }, { Roll }],
     });
-    console.log("Old User: ",oldUser);
 
     if (oldUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(409).json({ message: "User already exists" });
     } else {
       const result = await Registrations.create({
         Name,
+        Gender,
         Branch,
         Roll,
         Email,
@@ -47,11 +49,12 @@ export const create = async (req, res) => {
 
 export const find = async (req, res) => {
   try {
-    if (PASSWORD) {
+    const { password } = req.body;
+    if (password === PASSWORD) {
       const result = await Registrations.find();
       res.status(200).json(result);
     } else {
-      res.status(400).json({ message: "Please provide a password" });
+      res.status(400).json({ message: "Please provide a valid password" });
     }
   } catch (error) {
     res.status(404).json({ message: error.message });

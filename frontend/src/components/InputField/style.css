@@ -12,6 +12,7 @@
   justify-content: center;
   width: 100%;
   padding: .8rem 2rem;
+  outline: none;
   margin: 0.25rem;
   border-radius: 0.75rem;
   font-size: 1rem;
@@ -44,12 +45,13 @@
   cursor: pointer;
   transition: 0.1s ease-out;
 }
-.hostelOrDayScholar{
+.selectField {
   width: 122.5%;
   background-color: white;
+  
 }
-.hostelOption{
-  color: grey;
+.selectFieldOption ::placeholder{
+  color:grey;
 }
 .logo{
   width: 7%;
@@ -60,7 +62,7 @@
   .formField {
     font-size: 0.75rem;
   }
-  .hostelOrDayScholar{
+  .selectField{
     width: 130.5%;
   }
   .registerButton{

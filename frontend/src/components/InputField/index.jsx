@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
 
-axios.defaults.baseURL = "https://recruitment-registration-backend.onrender.com";
+axios.defaults.baseURL = "http://localhost:5000";
 
 export default function InputField() {
   const [name, setName] = useState("");
@@ -17,6 +17,7 @@ export default function InputField() {
   const [remainingRequests, setRemainingRequests] = useState(5);
   const [resetTime, setResetTime] = useState(Date.now());
   const [hostelOrDayScholar, setHostelOrDayScholar] = useState("");
+  const [gender, setGender] = useState("");
   const navigate = useNavigate();
 
   function validateName(name) {
@@ -28,7 +29,7 @@ export default function InputField() {
   }
 
   function validateRoll(roll) {
-    const regex = /^[0-9]{1,10}$/;
+    const regex = /^[0-9]{1,15}$/;
     if (regex.test(roll)) {
       setRoll(roll);
       return true;
@@ -53,6 +54,19 @@ export default function InputField() {
   }
 
   function handleForm() {
+    if (
+      name == "" ||
+      roll == "" ||
+      email == "" ||
+      branch == "" ||
+      phone == "" ||
+      hostelOrDayScholar == "" ||
+      gender == ""
+    ) {
+      alert("Please fill all the fields");
+      return;
+    }
+
     const isNameValid = validateName(name);
     const isEmailValid = validateEmail(email);
     const isPhoneValid = validatePhoneNumber(phone);
@@ -66,9 +80,12 @@ export default function InputField() {
       isRollValid &&
       isBranchValid
     ) {
+      let UpperCaseBranch = branch.toUpperCase();
+      console.log(UpperCaseBranch);
       const data = {
         Name: name,
-        Branch: branch,
+        Gender: gender,
+        Branch: UpperCaseBranch,
         Roll: roll,
         Email: email,
         Hostel: hostelOrDayScholar,
@@ -86,10 +103,13 @@ export default function InputField() {
             const reset = err.response.headers["x-ratelimit-reset"];
             setRateLimited(true);
             setResetTime(reset * 1000);
-          } else {
-            alert("Registration Failed");
+          } else if (err.response && err.response.status === 409) {
+            alert("User Already Registered");
             setSubmitted(false);
-            console.log(err);
+          } else {
+            alert("Please Verify Your Details");
+            setSubmitted(false);
+            console.log(err.response);
           }
         });
     } else {
@@ -136,6 +156,7 @@ export default function InputField() {
   useEffect(() => {
     if (submitted) {
       setName("");
+      setGender("");
       setRoll("");
       setEmail("");
       setBranch("");
@@ -153,7 +174,23 @@ export default function InputField() {
         onChange={(e) => setName(e.target.value)}
         value={name}
         className="formField"
+        label="Name"
       />
+      <select
+        className="formField selectField"
+        onChange={(e) => setGender(e.target.value)}
+        value={gender}
+      >
+        <option
+          value=""
+          disabled
+          className="selectFieldOption"
+          label="Gender?"
+        ></option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
       <input
         type="number"
         placeholder="Student Number"
@@ -178,23 +215,23 @@ export default function InputField() {
         className="formField"
       />
       <select
-        className="formField hostelOrDayScholar"
+        className="formField selectField"
         onChange={(e) => setHostelOrDayScholar(e.target.value)}
         value={hostelOrDayScholar}
       >
         <option
           value=""
           disabled
-          selected
-          className="hostelOption"
-          label="Hostel or Day Scholar"
+          className="selectFieldOption"
+          label="Hostel or Day Scholar?"
         ></option>
         <option value="Hostel">Hostel</option>
         <option value="Day Scholar">Day Scholar</option>
       </select>
+
       <input
         type="number"
-        placeholder="Phone Number"
+        placeholder="Phone Number(10 digits)"
         onChange={(e) => setPhone(e.target.value)}
         value={phone}
         className="formField"

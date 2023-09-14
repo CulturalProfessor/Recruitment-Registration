@@ -4,7 +4,7 @@ import "./style.css";
 
 export default function FrontForm() {
   return (
-    <div class="formbody">
+    <div className="formbody">
       <div className="formHeading">
         <img src="../osslogo.png" className="logo" alt="logo" />
         <h1 className="formHeadingElement">Team OSS </h1>
