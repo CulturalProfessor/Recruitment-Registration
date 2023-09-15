@@ -22,7 +22,6 @@ export const create = async (req, res) => {
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
-
     const { Name, Gender, Branch, Roll, Email, Phone, Domain, Hostel } =
       req.body;
     const oldUser = await Registrations.findOne({

@@ -47,7 +47,7 @@
   transition: 0.1s ease-out;
 }
 .selectField {
-  width: 117%;
+  width: 120%;
   background-color: white;
   
 }
@@ -66,6 +66,9 @@
   .registerButton{
     padding: .8rem;
     font-size: 1rem;
+  }
+  .selectField{
+    width: 125%;
   }
 }
 

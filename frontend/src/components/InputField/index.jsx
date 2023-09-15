@@ -22,12 +22,7 @@ export default function InputField() {
   const [hostelOrDayScholar, setHostelOrDayScholar] = useState("");
   const [gender, setGender] = useState("");
   const [domain, setDomain] = useState("");
-  const [verified, setVerified] = useState(false);
   const navigate = useNavigate();
-
-  function verifyCaptcha() {
-    setVerified(true);
-  }
 
   function validateName(name) {
     const regex = /^[a-zA-Z\s]*$/;
@@ -76,11 +71,6 @@ export default function InputField() {
       alert("Please fill all the fields");
       return;
     }
-    
-    if(!verified){
-      alert("Please verify the captcha");
-      return;
-    }
 
     const isNameValid = validateName(name);
     const isEmailValid = validateEmail(email);
@@ -108,6 +98,7 @@ export default function InputField() {
         Phone: phone,
       };
       setForm(data);
+      
       axios
         .post("/users", data)
         .then((res) => {
@@ -265,12 +256,6 @@ export default function InputField() {
         value={phone}
         className="formField"
       />
-      <ReCAPTCHA
-        sitekey={apiKey}
-        type="image"
-        className="recaptcha"
-        onChange={verifyCaptcha}
-      ></ReCAPTCHA>
       <button
         onClick={() => handleForm()}
         className="registerButton"
