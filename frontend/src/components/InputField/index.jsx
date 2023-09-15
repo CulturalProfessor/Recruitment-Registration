@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
+import ReCAPTCHA from "react-google-recaptcha";
 
-axios.defaults.baseURL = "https://recruitment-registration-backend.onrender.com";
+const apiKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+const baseURL = import.meta.env.VITE_BASE_URL;
+axios.defaults.baseURL = baseURL;
 
 export default function InputField() {
   const [name, setName] = useState("");
@@ -19,7 +22,12 @@ export default function InputField() {
   const [hostelOrDayScholar, setHostelOrDayScholar] = useState("");
   const [gender, setGender] = useState("");
   const [domain, setDomain] = useState("");
+  const [verified, setVerified] = useState(false);
   const navigate = useNavigate();
+
+  function verifyCaptcha() {
+    setVerified(true);
+  }
 
   function validateName(name) {
     const regex = /^[a-zA-Z\s]*$/;
@@ -66,6 +74,11 @@ export default function InputField() {
       gender == ""
     ) {
       alert("Please fill all the fields");
+      return;
+    }
+    
+    if(!verified){
+      alert("Please verify the captcha");
       return;
     }
 
@@ -252,7 +265,16 @@ export default function InputField() {
         value={phone}
         className="formField"
       />
-      <button onClick={() => handleForm()} className="registerButton">
+      <ReCAPTCHA
+        sitekey={apiKey}
+        type="image"
+        className="recaptcha"
+        onChange={verifyCaptcha}
+      ></ReCAPTCHA>
+      <button
+        onClick={() => handleForm()}
+        className="registerButton"
+      >
         Register
       </button>
     </div>

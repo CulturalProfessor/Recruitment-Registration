@@ -7,6 +7,7 @@ export default function App() {
     <div className="mainPage">
       <div className="frontForm">
         <FrontForm />
+        
       </div>
     </div>
   );

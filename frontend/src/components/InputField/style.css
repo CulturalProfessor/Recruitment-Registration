@@ -38,16 +38,16 @@
   font-size: 1.5rem;
   background-color: #2dba4e;
   color: white;
+  cursor: pointer;
 }
 .registerButton:hover {
   background-color: #23e550;
   color: white;
   box-shadow: #23e550 0px 0px 10px 0px;
-  cursor: pointer;
   transition: 0.1s ease-out;
 }
 .selectField {
-  width: 120%;
+  width: 117%;
   background-color: white;
   
 }
@@ -63,14 +63,12 @@
   .formField {
     font-size: 0.75rem;
   }
-  .selectField{
-    width: 125%;
-  }
   .registerButton{
     padding: .8rem;
     font-size: 1rem;
   }
 }
+
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
