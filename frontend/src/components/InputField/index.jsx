@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
-import ReCAPTCHA from "react-google-recaptcha";
+import CryptoJS from "crypto-js";
 
 const apiKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+const secretKey = import.meta.env.VITE_SECRET_KEY;
 const baseURL = import.meta.env.VITE_BASE_URL;
 axios.defaults.baseURL = baseURL;
 
@@ -33,11 +34,8 @@ export default function InputField() {
   }
 
   function validateRoll(roll) {
-    const regex = /^[0-9]{1,15}$/;
-    if (regex.test(roll)) {
-      setRoll(roll);
-      return true;
-    }
+    const regex = /^[0-9]*$/;
+    return regex.test(roll);
   }
 
   function validateEmail(email) {
@@ -86,7 +84,6 @@ export default function InputField() {
       isBranchValid
     ) {
       let UpperCaseBranch = branch.toUpperCase();
-      console.log(UpperCaseBranch);
       const data = {
         Name: name,
         Gender: gender,
@@ -98,9 +95,14 @@ export default function InputField() {
         Phone: phone,
       };
       setForm(data);
-      
+      const dataToencrypt = data;
+      const encryptedData = CryptoJS.AES.encrypt(
+        JSON.stringify(dataToencrypt),
+        secretKey
+      ).toString();
+
       axios
-        .post("/users", data)
+        .post("/users", { encryptedData })
         .then((res) => {
           setSubmitted(true);
           navigate("/redirect");
@@ -256,10 +258,7 @@ export default function InputField() {
         value={phone}
         className="formField"
       />
-      <button
-        onClick={() => handleForm()}
-        className="registerButton"
-      >
+      <button onClick={() => handleForm()} className="registerButton">
         Register
       </button>
     </div>

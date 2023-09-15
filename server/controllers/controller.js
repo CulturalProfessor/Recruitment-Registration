@@ -1,9 +1,11 @@
 import Registrations from "../models/student.js";
 import dotenv from "dotenv";
 import Joi from "joi";
+import CryptoJS from "crypto-js";
 
 dotenv.config();
 const PASSWORD = process.env.EMAIL_PASSWORD;
+const secretKey = process.env.VITE_SECRET_KEY;
 
 const registrationSchema = Joi.object({
   Name: Joi.string().required(),
@@ -18,12 +20,20 @@ const registrationSchema = Joi.object({
 
 export const create = async (req, res) => {
   try {
-    const { error } = registrationSchema.validate(req.body);
+    const encryptedData = req.body.encryptedData;
+    const decryptedData = CryptoJS.AES.decrypt(
+      encryptedData,
+      secretKey
+    ).toString(CryptoJS.enc.Utf8);
+    const decryptedDataJSON = JSON.parse(decryptedData);
+
+    const { error } = registrationSchema.validate(decryptedDataJSON);
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
+
     const { Name, Gender, Branch, Roll, Email, Phone, Domain, Hostel } =
-      req.body;
+      decryptedDataJSON;
     const oldUser = await Registrations.findOne({
       $or: [{ Email }, { Phone }, { Roll }],
     });
