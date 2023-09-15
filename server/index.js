@@ -7,10 +7,11 @@ import ExpressMongoSanitize from "express-mongo-sanitize";
 
 dotenv.config();
 
+const origin = process.env.ORIGIN;
 const uri = process.env.MONGO_URI;
 const PORT = process.env.PORT || 5000;
 const corsOptions = {
-    origin: "*",
+    origin: origin,
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
   };
