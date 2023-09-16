@@ -40,8 +40,8 @@ export const create = async (req, res) => {
     const response = await fetch(url, {
       method: "POST"
     });
-    console.log(data);
     const data = await response.json();
+    console.log(data);
     const oldUser = await Registrations.findOne({
       $or: [{ Email }, { Phone }, { Roll }],
     });
