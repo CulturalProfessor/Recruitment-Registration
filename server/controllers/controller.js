@@ -38,10 +38,7 @@ export const create = async (req, res) => {
       decryptedDataJSON;
     const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recapchaSecretKey}&response=${Token}`;
     const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Accept-Encoding": "application/json",
-      },
+      method: "POST"
     });
     const data = await response.json();
     const oldUser = await Registrations.findOne({
