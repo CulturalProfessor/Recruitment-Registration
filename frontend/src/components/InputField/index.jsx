@@ -110,18 +110,18 @@ export default function InputField() {
         .post("/users", { encryptedData })
         .then((res) => {
           setSubmitted(true);
+          reRecaptcha.current.reset();
           navigate("/redirect");
         })
         .catch((err) => {
           if (err.response && err.response.status === 429) {
             const reset = err.response.headers["x-ratelimit-reset"];
-            alert(err.response.data.message);
             setRateLimited(true);
             setResetTime(reset * 1000);
-          } else {
-            alert(err.response.data.message);
-            setSubmitted(false);
           }
+          alert(err.response.data.message);
+          setSubmitted(false);
+          reRecaptcha.current.reset();
         });
     } else {
       if (!isNameValid) {

@@ -36,10 +36,12 @@ export const create = async (req, res) => {
 
     const { Name, Gender, Branch, Roll, Email, Phone, Domain, Hostel, Token } =
       decryptedDataJSON;
-    console.log(Token);
     const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recapchaSecretKey}&response=${Token}`;
     const response = await fetch(url, {
       method: "POST",
+      headers: {
+        "Accept-Encoding": "application/json",
+      },
     });
     const data = await response.json();
     if (!data.success) {
