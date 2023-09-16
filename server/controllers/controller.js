@@ -44,10 +44,9 @@ export const create = async (req, res) => {
       },
     });
     const data = await response.json();
-    if (!data.success) {
-      return res.status(421).json({ message: "Recapcha Verification Failed" });
+    if (data.success==false) {
+      return res.status(421).json({ message: "Recaptcha Verification Failed" });
     }
-
     const oldUser = await Registrations.findOne({
       $or: [{ Email }, { Phone }, { Roll }],
     });
@@ -69,8 +68,7 @@ export const create = async (req, res) => {
     res.status(201).json("You have been registered successfully");
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
+    res.status(500).json({ message: error.message });  }
 };
 
 export const find = async (req, res) => {
