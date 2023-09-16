@@ -17,26 +17,8 @@ const registrationSchema = Joi.object({
   Hostel: Joi.string().required(),
   Domain: Joi.string().required(),
   Phone: Joi.string().length(10).required(),
+  Token: Joi.string().required(),
 });
-
-export const verifyRecapcha = async (req, res) => {
-  try {
-    const { token } = req.body;
-    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recapchaSecretKey}&response=${token}`;
-    const response = await fetch(url, {
-      method: "POST",
-    });
-
-    const data = await response.json();
-    if (data.success) {
-      res.status(200).json({ message: "Recapcha Verified" });
-    } else {
-      res.status(400).json({ message: "Recapcha Verification Failed" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
 
 export const create = async (req, res) => {
   try {
@@ -52,16 +34,26 @@ export const create = async (req, res) => {
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    const { Name, Gender, Branch, Roll, Email, Phone, Domain, Hostel } =
+    const { Name, Gender, Branch, Roll, Email, Phone, Domain, Hostel, Token } =
       decryptedDataJSON;
+    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recapchaSecretKey}&response=${Token}`;
+    const response = await fetch(url, {
+      method: "POST",
+    });
+    const data = await response.json();
+
+    if (!data.success) {
+      return res.status(421).json({ message: "Recapcha Verification Failed" });
+    }
+
     const oldUser = await Registrations.findOne({
       $or: [{ Email }, { Phone }, { Roll }],
     });
 
-    if (oldUser) {
+    if (oldUser && data.success) {
       return res.status(409).json({ message: "User already exists" });
     } else {
-      const result = await Registrations.create({
+      await Registrations.create({
         Name,
         Gender,
         Branch,

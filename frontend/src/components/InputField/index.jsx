@@ -59,20 +59,6 @@ export default function InputField() {
 
   async function handleForm() {
     const token = await reRecaptcha.current.executeAsync();
-    axios
-      .post("/recaptcha", { token })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 400) {
-          alert("Recaptcha Failed , Please Try Again");
-          setSubmitted(false);
-          reRecaptcha.current.reset();
-          return;
-        }
-        console.log(err);
-      });
 
     if (
       name == "" ||
@@ -111,6 +97,7 @@ export default function InputField() {
         Hostel: hostelOrDayScholar,
         Domain: domain,
         Phone: phone,
+        Token: token,
       };
       setForm(data);
       const dataToencrypt = data;
@@ -132,6 +119,9 @@ export default function InputField() {
             setResetTime(reset * 1000);
           } else if (err.response && err.response.status === 409) {
             alert("User Already Registered");
+            setSubmitted(false);
+          } else if (err.response && err.response.status === 421) {
+            alert("Fuck Off Bot");
             setSubmitted(false);
           } else {
             alert("Please Verify Your Details");
