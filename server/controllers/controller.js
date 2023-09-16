@@ -2,7 +2,7 @@ import Registrations from "../models/student.js";
 import dotenv from "dotenv";
 import Joi from "joi";
 import CryptoJS from "crypto-js";
-
+import fetch from "node-fetch";
 dotenv.config();
 const PASSWORD = process.env.EMAIL_PASSWORD;
 const secretKey = process.env.VITE_SECRET_KEY;
