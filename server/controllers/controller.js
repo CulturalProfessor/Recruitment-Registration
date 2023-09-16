@@ -44,9 +44,6 @@ export const create = async (req, res) => {
       },
     });
     const data = await response.json();
-    if (data.success==false) {
-      return res.status(421).json({ message: "Recaptcha Verification Failed" });
-    }
     const oldUser = await Registrations.findOne({
       $or: [{ Email }, { Phone }, { Roll }],
     });
@@ -54,21 +51,28 @@ export const create = async (req, res) => {
     if (oldUser) {
       return res.status(409).json({ message: "User already exists" });
     } else {
-      await Registrations.create({
-        Name,
-        Gender,
-        Branch,
-        Roll,
-        Email,
-        Hostel,
-        Domain,
-        Phone,
-      });
+      if (data.success == true) {
+        await Registrations.create({
+          Name,
+          Gender,
+          Branch,
+          Roll,
+          Email,
+          Hostel,
+          Domain,
+          Phone,
+        });
+        res.status(201).json("You have been registered successfully");
+      } else {
+        res
+          .status(421)
+          .json({ message: "Please verify that you are not a robot" });
+      }
     }
-    res.status(201).json("You have been registered successfully");
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: error.message });  }
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const find = async (req, res) => {

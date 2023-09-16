@@ -116,12 +116,16 @@ export default function InputField() {
         .catch((err) => {
           if (err.response && err.response.status === 429) {
             const reset = err.response.headers["x-ratelimit-reset"];
+            setSubmitted(false);
+            alert("Too many request please wait a minute")
+            reRecaptcha.current.reset();
             setRateLimited(true);
             setResetTime(reset * 1000);
+          }else{
+            alert(err.response.data.message);
+            setSubmitted(false);
+            reRecaptcha.current.reset();
           }
-          alert(err.response.data.message);
-          setSubmitted(false);
-          reRecaptcha.current.reset();
         });
     } else {
       if (!isNameValid) {
