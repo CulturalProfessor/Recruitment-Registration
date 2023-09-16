@@ -40,15 +40,15 @@ export const create = async (req, res) => {
     const response = await fetch(url, {
       method: "POST"
     });
+    console.log(data);
     const data = await response.json();
     const oldUser = await Registrations.findOne({
       $or: [{ Email }, { Phone }, { Roll }],
     });
-
     if (oldUser) {
       return res.status(409).json({ message: "User already exists" });
     } else {
-      if (data.success == true) {
+      if (data.success) {
         await Registrations.create({
           Name,
           Gender,
@@ -63,7 +63,7 @@ export const create = async (req, res) => {
       } else {
         res
           .status(421)
-          .json({ message: "Please verify that you are not a robot" });
+          .json({ message: "Recaptcha failed" });
       }
     }
   } catch (error) {
