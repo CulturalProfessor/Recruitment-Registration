@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
 import CryptoJS from "crypto-js";
+import ReCAPTCHA from "react-google-recaptcha";
 
-const apiKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 const baseURL = import.meta.env.VITE_BASE_URL;
 axios.defaults.baseURL = baseURL;
@@ -23,6 +24,7 @@ export default function InputField() {
   const [hostelOrDayScholar, setHostelOrDayScholar] = useState("");
   const [gender, setGender] = useState("");
   const [domain, setDomain] = useState("");
+  const reRecaptcha = useRef();
   const navigate = useNavigate();
 
   function validateName(name) {
@@ -55,7 +57,23 @@ export default function InputField() {
     }
   }
 
-  function handleForm() {
+  async function handleForm() {
+    const token = await reRecaptcha.current.executeAsync();
+    axios
+      .post("/recaptcha", { token })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 400) {
+          alert("Recaptcha Failed , Please Try Again");
+          setSubmitted(false);
+          reRecaptcha.current.reset();
+          return;
+        }
+        console.log(err);
+      });
+
     if (
       name == "" ||
       roll == "" ||
@@ -257,6 +275,13 @@ export default function InputField() {
         onChange={(e) => setPhone(e.target.value)}
         value={phone}
         className="formField"
+      />
+      <ReCAPTCHA
+        className="recaptcha"
+        ref={reRecaptcha}
+        size="invisible"
+        sitekey={recaptchaSiteKey}
+        type="image"
       />
       <button onClick={() => handleForm()} className="registerButton">
         Register

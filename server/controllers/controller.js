@@ -6,6 +6,7 @@ import CryptoJS from "crypto-js";
 dotenv.config();
 const PASSWORD = process.env.EMAIL_PASSWORD;
 const secretKey = process.env.VITE_SECRET_KEY;
+const recapchaSecretKey = process.env.RECAPCHA_SECRET_KEY;
 
 const registrationSchema = Joi.object({
   Name: Joi.string().required(),
@@ -17,6 +18,25 @@ const registrationSchema = Joi.object({
   Domain: Joi.string().required(),
   Phone: Joi.string().length(10).required(),
 });
+
+export const verifyRecapcha = async (req, res) => {
+  try {
+    const { token } = req.body;
+    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recapchaSecretKey}&response=${token}`;
+    const response = await fetch(url, {
+      method: "POST",
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      res.status(200).json({ message: "Recapcha Verified" });
+    } else {
+      res.status(400).json({ message: "Recapcha Verification Failed" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 export const create = async (req, res) => {
   try {
