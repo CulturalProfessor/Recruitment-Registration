@@ -115,18 +115,12 @@ export default function InputField() {
         .catch((err) => {
           if (err.response && err.response.status === 429) {
             const reset = err.response.headers["x-ratelimit-reset"];
+            alert(err.response.data.message);
             setRateLimited(true);
             setResetTime(reset * 1000);
-          } else if (err.response && err.response.status === 409) {
-            alert("User Already Registered");
-            setSubmitted(false);
-          } else if (err.response && err.response.status === 421) {
-            alert("Fuck Off Bot");
-            setSubmitted(false);
           } else {
-            alert("Please Verify Your Details");
+            alert(err.response.data.message);
             setSubmitted(false);
-            console.log(err.response);
           }
         });
     } else {

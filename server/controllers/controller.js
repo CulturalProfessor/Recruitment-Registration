@@ -36,12 +36,12 @@ export const create = async (req, res) => {
 
     const { Name, Gender, Branch, Roll, Email, Phone, Domain, Hostel, Token } =
       decryptedDataJSON;
+    console.log(Token);
     const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recapchaSecretKey}&response=${Token}`;
     const response = await fetch(url, {
       method: "POST",
     });
     const data = await response.json();
-
     if (!data.success) {
       return res.status(421).json({ message: "Recapcha Verification Failed" });
     }
@@ -50,7 +50,7 @@ export const create = async (req, res) => {
       $or: [{ Email }, { Phone }, { Roll }],
     });
 
-    if (oldUser && data.success) {
+    if (oldUser) {
       return res.status(409).json({ message: "User already exists" });
     } else {
       await Registrations.create({
