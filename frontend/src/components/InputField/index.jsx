@@ -59,20 +59,6 @@ export default function InputField() {
 
   async function handleForm() {
     const token = await reRecaptcha.current.executeAsync();
-    axios
-      .post("/recaptcha", { token })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 400) {
-          alert("Recaptcha Failed , Please Try Again");
-          setSubmitted(false);
-          reRecaptcha.current.reset();
-          return;
-        }
-        console.log(err);
-      });
 
     if (
       name == "" ||
@@ -111,6 +97,7 @@ export default function InputField() {
         Hostel: hostelOrDayScholar,
         Domain: domain,
         Phone: phone,
+        Token: token,
       };
       setForm(data);
       const dataToencrypt = data;
@@ -123,20 +110,21 @@ export default function InputField() {
         .post("/users", { encryptedData })
         .then((res) => {
           setSubmitted(true);
+          reRecaptcha.current.reset();
           navigate("/redirect");
         })
         .catch((err) => {
           if (err.response && err.response.status === 429) {
             const reset = err.response.headers["x-ratelimit-reset"];
+            setSubmitted(false);
+            alert("Too many request please wait a minute")
+            reRecaptcha.current.reset();
             setRateLimited(true);
             setResetTime(reset * 1000);
-          } else if (err.response && err.response.status === 409) {
-            alert("User Already Registered");
+          }else{
+            alert(err.response.data.message);
             setSubmitted(false);
-          } else {
-            alert("Please Verify Your Details");
-            setSubmitted(false);
-            console.log(err.response);
+            reRecaptcha.current.reset();
           }
         });
     } else {

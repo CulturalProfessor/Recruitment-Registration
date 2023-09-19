@@ -2,7 +2,7 @@ import Registrations from "../models/student.js";
 import dotenv from "dotenv";
 import Joi from "joi";
 import CryptoJS from "crypto-js";
-
+import fetch from "node-fetch";
 dotenv.config();
 const PASSWORD = process.env.EMAIL_PASSWORD;
 const secretKey = process.env.VITE_SECRET_KEY;
@@ -17,26 +17,8 @@ const registrationSchema = Joi.object({
   Hostel: Joi.string().required(),
   Domain: Joi.string().required(),
   Phone: Joi.string().length(10).required(),
+  Token: Joi.string().required(),
 });
-
-export const verifyRecapcha = async (req, res) => {
-  try {
-    const { token } = req.body;
-    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recapchaSecretKey}&response=${token}`;
-    const response = await fetch(url, {
-      method: "POST",
-    });
-
-    const data = await response.json();
-    if (data.success) {
-      res.status(200).json({ message: "Recapcha Verified" });
-    } else {
-      res.status(400).json({ message: "Recapcha Verification Failed" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
 
 export const create = async (req, res) => {
   try {
@@ -52,8 +34,13 @@ export const create = async (req, res) => {
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    const { Name, Gender, Branch, Roll, Email, Phone, Domain, Hostel } =
+    const { Name, Gender, Branch, Roll, Email, Phone, Domain, Hostel, Token } =
       decryptedDataJSON;
+    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recapchaSecretKey}&response=${Token}`;
+    const response = await fetch(url, {
+      method: "POST"
+    });
+    const data = await response.json();
     const oldUser = await Registrations.findOne({
       $or: [{ Email }, { Phone }, { Roll }],
     });
@@ -61,21 +48,27 @@ export const create = async (req, res) => {
     if (oldUser) {
       return res.status(409).json({ message: "User already exists" });
     } else {
-      const result = await Registrations.create({
-        Name,
-        Gender,
-        Branch,
-        Roll,
-        Email,
-        Hostel,
-        Domain,
-        Phone,
-      });
+      if (data.success == true) {
+        await Registrations.create({
+          Name,
+          Gender,
+          Branch,
+          Roll,
+          Email,
+          Hostel,
+          Domain,
+          Phone,
+        });
+        res.status(201).json("You have been registered successfully");
+      } else {
+        res
+          .status(421)
+          .json({ message: "Please verify that you are not a robot" });
+      }
     }
-    res.status(201).json("You have been registered successfully");
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: error.message });
   }
 };
 
