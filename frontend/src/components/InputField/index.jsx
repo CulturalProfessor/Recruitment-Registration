@@ -8,6 +8,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 const baseURL = import.meta.env.VITE_BASE_URL;
+const origin = import.meta.env.VITE_ORIGIN;
 axios.defaults.baseURL = baseURL;
 
 export default function InputField() {
@@ -107,7 +108,16 @@ export default function InputField() {
       ).toString();
 
       axios
-        .post("/users", { encryptedData })
+        .post(
+          "/users",
+          { encryptedData },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": origin,
+            },
+          }
+        )
         .then((res) => {
           setSubmitted(true);
           reRecaptcha.current.reset();
@@ -117,11 +127,11 @@ export default function InputField() {
           if (err.response && err.response.status === 429) {
             const reset = err.response.headers["x-ratelimit-reset"];
             setSubmitted(false);
-            alert("Too many request please wait a minute")
+            alert("Too many request please wait a minute");
             reRecaptcha.current.reset();
             setRateLimited(true);
             setResetTime(reset * 1000);
-          }else{
+          } else {
             alert(err.response.data.message);
             setSubmitted(false);
             reRecaptcha.current.reset();
