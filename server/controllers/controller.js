@@ -15,7 +15,7 @@ const registrationSchema = Joi.object({
   Roll: Joi.string().required(),
   Email: Joi.string().email().required(),
   Hostel: Joi.string().required(),
-  Domain: Joi.string().required(),
+  Year: Joi.string().required(),
   Phone: Joi.string().length(10).required(),
   Token: Joi.string().required(),
 });
@@ -34,7 +34,7 @@ export const create = async (req, res) => {
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    const { Name, Gender, Branch, Roll, Email, Phone, Domain, Hostel, Token } =
+    const { Name, Gender, Branch, Roll, Email, Phone, Year, Hostel, Token } =
       decryptedDataJSON;
     const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recapchaSecretKey}&response=${Token}`;
     const response = await fetch(url, {
@@ -56,7 +56,7 @@ export const create = async (req, res) => {
           Roll,
           Email,
           Hostel,
-          Domain,
+          Year,
           Phone,
         });
         res.status(201).json("You have been registered successfully");

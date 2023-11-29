@@ -5,9 +5,9 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  border: 0px solid #23e550;
+  border: 0px solid #328ED6;
   border-radius: 1rem;
-  box-shadow: #23e550 0px 0px 20px 5px;
+  box-shadow: #328ED6 0px 0px 20px 5px;
   padding: 0.5rem;
   background-color: #f8f8f8;
 }
@@ -100,6 +100,10 @@
   .logo {
     width: 10%;
     height: 10%;
+  }
+  .acm_logo{
+    width: 20%;
+    height: 20%;
   }
   .softwareImageElement {
     width: 10%;

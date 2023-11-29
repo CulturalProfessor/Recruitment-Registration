@@ -23,7 +23,7 @@ export default function InputField() {
   const [resetTime, setResetTime] = useState(Date.now());
   const [hostelOrDayScholar, setHostelOrDayScholar] = useState("");
   const [gender, setGender] = useState("");
-  const [domain, setDomain] = useState("");
+  const [year, setYear] = useState("");
   const reRecaptcha = useRef();
   const navigate = useNavigate();
 
@@ -67,7 +67,7 @@ export default function InputField() {
       branch == "" ||
       phone == "" ||
       hostelOrDayScholar == "" ||
-      domain == "" ||
+      year == "" ||
       gender == ""
     ) {
       alert("Please fill all the fields");
@@ -95,7 +95,7 @@ export default function InputField() {
         Roll: roll,
         Email: email,
         Hostel: hostelOrDayScholar,
-        Domain: domain,
+        Year: year,
         Phone: phone,
         Token: token,
       };
@@ -245,17 +245,18 @@ export default function InputField() {
       </select>
       <select
         className="formField selectField"
-        onChange={(e) => setDomain(e.target.value)}
-        value={domain}
+        onChange={(e) => setYear(e.target.value)}
+        value={year}
       >
         <option
           value=""
           disabled
           className="selectFieldOption"
-          label="Domain ?"
+          label="Year ?"
         ></option>
-        <option value="Developer">Developer</option>
-        <option value="Designer">Designer</option>
+        <option value="second">II</option>
+        <option value="third">III</option>
+        <option value="fourth">IV</option>
       </select>
       <input
         type="number"
