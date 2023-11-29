@@ -24,7 +24,7 @@ export default function FrontForm() {
         <li className="list">
           <h3>4th Floor CS/IT Block</h3>
         </li>
-        <h3 className="notice">Please register yourself on HackerRank College Mail ID before test</h3>
+        <h3 className="notice">Please register yourself on HackerRank with College Mail ID before test</h3>
         <div className="kidsContainer">
           <img src="/kids.svg" alt="" id="kidsImage" />
           <InputField />

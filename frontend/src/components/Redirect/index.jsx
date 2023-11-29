@@ -5,12 +5,12 @@ export default function Redirect() {
   return (
     <div className="redirectContainer">
       <div className="formHeading">
-        <img src="../osslogo.png" className="logo" alt="logo" />
-        <h1 className="formHeadingElement">Team OSS & ACM AKGEC</h1>
-        <img src="../acm_crop.png"/>
+        <img src="../osslogo.png" className="redirect_logo" alt="logo" />
+        <h2 className="formHeadingElement">Team OSS & ACM AKGEC</h2>
+        <img src="../acm_crop.png" className="redirect_acm_logo" alt="acm_logo" />
       </div>
-      <h1>Thanks for Registration</h1>
-      <h1>Confirmation mail will be sent.</h1>
+      <h2>Thanks for Registration</h2>
+      <h2>Confirmation mail will be sent.</h2>
       <img src="/success.svg" id="redirectImage" />
     </div>
   );

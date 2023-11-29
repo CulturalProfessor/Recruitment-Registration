@@ -13,6 +13,13 @@
   padding: 1rem;
   background-color: #f8f8f8;
 }
+.formHeading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
 
 #redirectImage {
   width: 100%;
@@ -21,15 +28,29 @@
   border-radius: 1rem;
 }
 
+.redirect_logo {
+  width: 10%;
+  height: 10%;
+}
+.redirect_acm_logo{
+  width: 15%;
+  height: 80%;
+}
+
 @media screen and (max-width: 1000px) {
   .redirectContainer {
-    height: 50vh;
+    height: 30vh;
     margin-top: 5rem;
     width: 75vw;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
   }
-  .redirectLogo {
-    width: 20%;
-    height: 90%;
+
+  .redirect_logo {
+    width: 10%;
+    height: 80%;
+  }
+  .redirect_acm_logo{
+    width: 15%;
+    height: 80%;
   }
 }
