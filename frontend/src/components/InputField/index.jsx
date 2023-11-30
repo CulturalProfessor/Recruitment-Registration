@@ -113,8 +113,8 @@ export default function InputField() {
           { encryptedData },
           {
             headers: {
-              "Content-Type": "application/json",
               "Access-Control-Allow-Origin": origin,
+              "Content-Type": "application/json",
             },
           }
         )
