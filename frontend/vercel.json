@@ -1,13 +1,13 @@
 {
-  "headers": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "https://acm-akgec-registration.vercel.app"
-        }
-      ]
+      "src": "/users",
+      "methods": ["GET", "POST", "PUT", "DELETE"],
+      "headers": {
+        "Access-Control-Allow-Origin": "https://acm-akgec-registration.vercel.app",
+        "Access-Control-Allow-Methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "Access-Control-Allow-Credentials": "true"
+      }
     }
   ]
 }
