@@ -11,10 +11,10 @@ const origin = process.env.ORIGIN;
 const uri = process.env.MONGO_URI;
 const PORT = process.env.PORT || 5000;
 const corsOptions = {
-    origin: origin,
-    credentials: true, //access-control-allow-credentials:true
-    optionSuccessStatus: 200,
-  };
+  origin: origin,
+  credentials: true,
+  optionSuccessStatus: 200,
+};
 const app = express();
 
 app.use(cors(corsOptions));

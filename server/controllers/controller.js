@@ -61,29 +61,28 @@ export const create = async (req, res) => {
           Phone,
         });
 
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: process.env.EMAIL_USERNAME,
-            pass: process.env.EMAIL_PASSWORD,
-          },
-        });
+        // const transporter = nodemailer.createTransport({
+        //   service: "gmail",
+        //   auth: {
+        //     user: process.env.EMAIL_USERNAME,
+        //     pass: process.env.EMAIL_PASSWORD,
+        //   },
+        // });
 
-        const mailOptions = {
-          from: "ossrndcentre@gmail.com",
-          to: Email,
-          subject: "Registration Successful",
-          text: "Thank you for registering. Your registration was successful. The contest will be held on 5th December 2023 in 4th Floor CSIT block from 4:00pm to 7pm ,please register yourself on HackerRank before contest.",
-        };
+        // const mailOptions = {
+        //   from: "ossrndcentre@gmail.com",
+        //   to: Email,
+        //   subject: "Registration Successful",
+        //   text: "Thank you for registering. Your registration was successful. The contest will be held on 5th December 2023 in 4th Floor CSIT block from 4:00pm to 7pm ,please register yourself on HackerRank before contest.",
+        // };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            console.error("Error sending email:", error);
-          } else {
-            console.log("Email sent:", info.response);
-          }
-        });
-
+        // transporter.sendMail(mailOptions, (error, info) => {
+        //   if (error) {
+        //     console.error("Error sending email:", error);
+        //   } else {
+        //     console.log("Email sent:", info.response);
+        //   }
+        // });
         res.status(201).json("You have been registered successfully");
       } else {
         res
