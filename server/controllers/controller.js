@@ -8,6 +8,7 @@ dotenv.config();
 const PASSWORD = process.env.EMAIL_PASSWORD;
 const secretKey = process.env.VITE_SECRET_KEY;
 const recapchaSecretKey = process.env.RECAPCHA_SECRET_KEY;
+const origin = process.env.ORIGIN;
 
 const registrationSchema = Joi.object({
   Name: Joi.string().required(),
@@ -22,12 +23,23 @@ const registrationSchema = Joi.object({
 });
 
 export const create = async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", origin);
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, OPTIONS, DELETE"
+  );
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).json({
+      body: "OK",
+    });
+  }
   try {
-    if (req.method === "OPTIONS") {
-      return res.status(200).json({
-        body: "OK",
-      });
-    }
     const encryptedData = req.body.encryptedData;
     const decryptedData = CryptoJS.AES.decrypt(
       encryptedData,
@@ -80,12 +92,23 @@ export const create = async (req, res) => {
 };
 
 export const find = async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", origin);
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, OPTIONS, DELETE"
+  );
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).json({
+      body: "OK",
+    });
+  }
   try {
-    if (req.method === "OPTIONS") {
-      return res.status(200).json({
-        body: "OK",
-      });
-    }
     const { password } = req.body;
     if (password === PASSWORD) {
       const result = await Registrations.find();
