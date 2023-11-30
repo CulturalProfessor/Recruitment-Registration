@@ -7,7 +7,7 @@ import fetch from "node-fetch";
 dotenv.config();
 const PASSWORD = process.env.EMAIL_PASSWORD;
 const secretKey = process.env.VITE_SECRET_KEY;
-const recapchaSecretKey = process.env.RECAPCHA_SECRET_KEY;
+const recapchaSecretKey = process.env.VITE_RECAPCHA_SECRET_KEY;
 const origin = process.env.ORIGIN;
 
 const registrationSchema = Joi.object({
