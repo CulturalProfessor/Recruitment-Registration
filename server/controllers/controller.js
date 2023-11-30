@@ -79,9 +79,6 @@ export const create = async (req, res) => {
 };
 
 export const find = async (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET, POST");
   try {
     const { password } = req.body;
     if (password === PASSWORD) {

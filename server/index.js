@@ -17,13 +17,16 @@ const PORT = process.env.PORT || 5000;
 // };
 const app = express();
 
-// app.use(cors(corsOptions));
+app.use(cors({
+  origin:"*",
+  credentials:true,
+}));
 app.use(ExpressMongoSanitize());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", routes);
 app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
 mongoose
   .connect(uri, {
