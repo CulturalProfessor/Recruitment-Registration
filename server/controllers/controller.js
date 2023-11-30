@@ -23,6 +23,11 @@ const registrationSchema = Joi.object({
 
 export const create = async (req, res) => {
   try {
+    if (req.method === "OPTIONS") {
+      return res.status(200).json({
+        body: "OK",
+      });
+    }
     const encryptedData = req.body.encryptedData;
     const decryptedData = CryptoJS.AES.decrypt(
       encryptedData,
@@ -76,6 +81,11 @@ export const create = async (req, res) => {
 
 export const find = async (req, res) => {
   try {
+    if (req.method === "OPTIONS") {
+      return res.status(200).json({
+        body: "OK",
+      });
+    }
     const { password } = req.body;
     if (password === PASSWORD) {
       const result = await Registrations.find();
