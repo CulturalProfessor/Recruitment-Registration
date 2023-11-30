@@ -7,8 +7,6 @@ import fetch from "node-fetch";
 dotenv.config();
 const PASSWORD = process.env.EMAIL_PASSWORD;
 const secretKey = process.env.VITE_SECRET_KEY;
-const recapchaSecretKey = process.env.VITE_RECAPCHA_SECRET_KEY;
-const origin = process.env.ORIGIN;
 
 const registrationSchema = Joi.object({
   Name: Joi.string().required(),
@@ -39,7 +37,7 @@ export const create = async (req, res) => {
 
     const { Name, Gender, Branch, Roll, Email, Phone, Year, Hostel, Token } =
       decryptedDataJSON;
-    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recapchaSecretKey}&response=${Token}`;
+    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${Token}`;
     const response = await fetch(url, {
       method: "POST",
     });
