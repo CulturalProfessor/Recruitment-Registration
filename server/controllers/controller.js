@@ -23,17 +23,6 @@ const registrationSchema = Joi.object({
 });
 
 export const create = async (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", origin);
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, OPTIONS, DELETE"
-  );
-
   if (req.method === "OPTIONS") {
     return res.status(200).json({
       body: "OK",
@@ -92,17 +81,6 @@ export const create = async (req, res) => {
 };
 
 export const find = async (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", origin);
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, OPTIONS, DELETE"
-  );
-
   if (req.method === "OPTIONS") {
     return res.status(200).json({
       body: "OK",
