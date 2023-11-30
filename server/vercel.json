@@ -1,0 +1,10 @@
+{
+    "header":{
+        "source": "/(.*)",
+        "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://acm-akgec-registration.vercel.app"
+        }]
+    }
+}
