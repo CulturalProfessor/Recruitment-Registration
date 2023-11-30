@@ -108,15 +108,7 @@ export default function InputField() {
       ).toString();
 
       axios
-        .post(
-          "/users",
-          { encryptedData },
-          {
-            headers: {
-              "Access-Control-Allow-Origin": origin,
-            },
-          }
-        )
+        .post("/users", { encryptedData })
         .then((res) => {
           setSubmitted(true);
           reRecaptcha.current.reset();
