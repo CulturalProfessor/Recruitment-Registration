@@ -11,14 +11,14 @@ const origin = process.env.ORIGIN;
 const uri = process.env.MONGO_URI;
 const PORT = process.env.PORT || 5000;
 const corsOptions = {
-    origin: "*",
+    origin: origin,
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
   };
 const app = express();
 
-app.use(ExpressMongoSanitize());
 app.use(cors(corsOptions));
+app.use(ExpressMongoSanitize());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", routes);
