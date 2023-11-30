@@ -108,7 +108,7 @@ export default function InputField() {
       ).toString();
 
       axios
-        .post("/users", { encryptedData })
+        .post("/", { encryptedData })
         .then((res) => {
           setSubmitted(true);
           reRecaptcha.current.reset();
