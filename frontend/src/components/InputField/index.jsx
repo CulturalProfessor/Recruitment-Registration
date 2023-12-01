@@ -29,11 +29,13 @@ export default function InputField() {
   const navigate = useNavigate();
 
   function validateName(name) {
+    const trimmedName = name.trim();
     const regex = /^[a-zA-Z\s]*$/;
-    if (regex.test(name)) {
-      setName(name);
+    if (regex.test(trimmedName)) {
+      setName(trimmedName);
       return true;
     }
+    return false;
   }
 
   function validateRoll(roll) {
@@ -50,26 +52,29 @@ export default function InputField() {
     const regex = /^[0-9]{10}$/;
     return regex.test(phone);
   }
+
   function validateBranch(branch) {
-    const regex = /^[a-zA-Z0-9\s-]+$/;
-    if (regex.test(branch)) {
-      setBranch(branch);
+    const trimmedBranch = branch.trim();
+    const regex = /^[a-zA-Z0-9\s()-]+$/;
+    if (regex.test(trimmedBranch)) {
+      setBranch(trimmedBranch);
       return true;
     }
+    return false;
   }
 
   async function handleForm() {
     const token = await reRecaptcha.current.executeAsync();
 
     if (
-      name == "" ||
-      roll == "" ||
-      email == "" ||
-      branch == "" ||
-      phone == "" ||
-      hostelOrDayScholar == "" ||
-      year == "" ||
-      gender == ""
+      name === "" ||
+      roll === "" ||
+      email === "" ||
+      branch === "" ||
+      phone === "" ||
+      hostelOrDayScholar === "" ||
+      year === "" ||
+      gender === ""
     ) {
       alert("Please fill all the fields");
       return;
@@ -118,7 +123,7 @@ export default function InputField() {
           if (err.response && err.response.status === 429) {
             const reset = err.response.headers["x-ratelimit-reset"];
             setSubmitted(false);
-            alert("Too many request please wait a minute");
+            alert("Too many requests; please wait a minute");
             reRecaptcha.current.reset();
             setRateLimited(true);
             setResetTime(reset * 1000);
@@ -187,7 +192,7 @@ export default function InputField() {
       <input
         type="text"
         placeholder="Name"
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e) => validateName(e.target.value)}
         value={name}
         className="formField"
         label="Name"
@@ -226,7 +231,7 @@ export default function InputField() {
       <input
         type="text"
         placeholder="Branch"
-        onChange={(e) => setBranch(e.target.value)}
+        onChange={(e) => validateBranch(e.target.value)}
         value={branch}
         className="formField"
       />

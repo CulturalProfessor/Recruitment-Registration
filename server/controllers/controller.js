@@ -20,6 +20,47 @@ const registrationSchema = Joi.object({
   Token: Joi.string().required(),
 });
 
+//function for sending  mail by sendgrid
+async function sendEmail(emailTypeFunction, toMail, fromMail) {
+  console.log('process.env.SENDGRID_API_KEY:', process.env.SENDGRID_API_KEY);
+  try {
+      const emailMessage = getEmail();
+
+      emailMessage.to = toMail;
+      emailMessage.from = fromMail;
+
+      await sendGridMail.send(emailMessage);
+      return { message: `email sent successfully` };
+  } catch (error) {
+      console.log({ 'message': `Error in sending email`, 'error': error });
+      return error;
+  }
+}
+
+
+function getEmail() {
+  // return your html component here
+  return {
+      to: data.toMail,
+      from: data.fromMail,
+      subject: data.subject,
+      html: `
+  <font face="Google Sans" color="#444444" >
+      <div style="font-size:110%">
+          <p >Hi ${data.user.full_name}</p>
+          <p> Please use the following OTP to reset your password: <b>${data.otp}</b> </p>
+          <p>This OTP will expire in 15 minutes.</p>
+          <br />
+          <p>If you did not request a password change, please feel free to ignore this message.</p>
+          <p>If you have any comments or questions don’t hesitate to reach us at <a href="mailto:support.agprop.in"> Support </a></p>
+
+      <p style="margin:0">Regards,</p>
+      <p style="margin:0">AGPROP</p>
+  </div>
+  </font>
+  `,
+  };
+}
 export const create = async (req, res) => {
 
   try {
