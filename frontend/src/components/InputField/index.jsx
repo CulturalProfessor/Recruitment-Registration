@@ -29,10 +29,9 @@ export default function InputField() {
   const navigate = useNavigate();
 
   function validateName(name) {
-    const trimmedName = name.trim();
     const regex = /^[a-zA-Z\s]*$/;
-    if (regex.test(trimmedName)) {
-      setName(trimmedName);
+    if (regex.test(name)) {
+      setName(name);
       return true;
     }
     return false;
@@ -54,10 +53,9 @@ export default function InputField() {
   }
 
   function validateBranch(branch) {
-    const trimmedBranch = branch.trim();
     const regex = /^[a-zA-Z0-9\s()-]+$/;
-    if (regex.test(trimmedBranch)) {
-      setBranch(trimmedBranch);
+    if (regex.test(branch)) {
+      setBranch(branch);
       return true;
     }
     return false;
