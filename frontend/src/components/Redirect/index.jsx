@@ -9,8 +9,8 @@ export default function Redirect() {
         <h2 className="formHeadingElement">Team OSS & ACM AKGEC</h2>
         <img src="../acm_crop.png" className="redirect_acm_logo" alt="acm_logo" />
       </div>
-      <h2>Thanks for Registration</h2>
-      <h2>Confirmation mail will be sent.</h2>
+      <h2>Thanks for Your Response</h2>
+      <h2>Registrations have closed.</h2>
       <img src="/success.svg" id="redirectImage" />
     </div>
   );
