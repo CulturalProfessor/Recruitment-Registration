@@ -5,8 +5,12 @@ import CryptoJS from "crypto-js";
 import nodemailer from "nodemailer";
 import fetch from "node-fetch";
 dotenv.config();
+const USERNAME = process.env.EMAIL_USERNAME;
 const PASSWORD = process.env.EMAIL_PASSWORD;
 const secretKey = process.env.VITE_SECRET_KEY;
+import emailValidator from "deep-email-validator"
+console.log(USERNAME)
+console.log(PASSWORD)
 
 const registrationSchema = Joi.object({
   Name: Joi.string().required(),
@@ -20,49 +24,85 @@ const registrationSchema = Joi.object({
   Token: Joi.string().required(),
 });
 
+//function for sending  mail by nodemailer
+async function sendEmailNodemailer(toMail,name,roll){
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth:{
+      user: USERNAME,
+      pass: PASSWORD                 //always use app password
+    }
+  })
+  await transporter.sendMail({
+    from: USERNAME,
+    to: toMail,
+    subject: 'Registration of COMMIT',
+    headers: {
+      "X-My-Header": 'https://scontent-del2-1.xx.fbcdn.net/v/t39.30808-6/305819699_484347750365637_2455990691136540320_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=pVAwo9W79ggAb7h7gEZ&_nc_ht=scontent-del2-1.xx&oh=00_AfAQUvBjQM7RfEC_mbDnIng-l3MYBPUO9l3MtU2S02IBPw&oe=6625C5B2'
+  },
+    html: `
+    <font face="Google Sans" color="#444444" >
+        <div style="font-size:110%">
+            <p>Hi ${name}</p>
+            <p>Congratulations on completing 50% of your event registration! To finish your registration, please pay the fee in person at one of our help desks. Show this email for confirmation of your online registration. </p>
+            <br />
+            <h1>${roll}</h1>
+            <p>If you have any comments or questions dont hesitate to reach us at our help desk or through our ig <a href="https://www.instagram.com/team__oss?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="> team__oss </a></p>
+  
+            <p style="margin:0">Regards,</p>
+            <p style="margin:0">TEAM OSSC</p>
+        </div>
+    </font>
+    `
+  })
+}
+
+
 //function for sending  mail by sendgrid
-async function sendEmail(emailTypeFunction, toMail, fromMail) {
-  console.log('process.env.SENDGRID_API_KEY:', process.env.SENDGRID_API_KEY);
+async function sendEmail(emailTypeFunction, toMail, fromMail, roll) {
+  console.log("process.env.SENDGRID_API_KEY:", process.env.SENDGRID_API_KEY);
   try {
-      const emailMessage = getEmail();
+    const emailMessage = getEmail();
 
-      emailMessage.to = toMail;
-      emailMessage.from = fromMail;
+    emailMessage.to = toMail;
+    emailMessage.from = fromMail;
 
-      await sendGridMail.send(emailMessage);
-      return { message: `email sent successfully` };
+    await sendGridMail.send(emailMessage);
+    return { message: `email sent successfully` };
   } catch (error) {
-      console.log({ 'message': `Error in sending email`, 'error': error });
-      return error;
+    console.log({ message: `Error in sending email`, error: error });
+    return error;
   }
 }
 
+// check if email does exist or not
+async function isEmailValid(email) {
+  return emailValidator.validate(email)
+}
 
 function getEmail() {
   // return your html component here
   return {
-      to: data.toMail,
-      from: data.fromMail,
-      subject: data.subject,
-      html: `
+    to: data.toMail,
+    from: data.fromMail,
+    subject: data.subject,
+    html: `
   <font face="Google Sans" color="#444444" >
       <div style="font-size:110%">
           <p >Hi ${data.user.full_name}</p>
-          <p> Please use the following OTP to reset your password: <b>${data.otp}</b> </p>
-          <p>This OTP will expire in 15 minutes.</p>
+          <p> Congratulations on completing 50% of your event registration! To finish your registration, please pay the fee in person at one of our help desks. Show this email for confirmation of your online registration. </p>
           <br />
-          <p>If you did not request a password change, please feel free to ignore this message.</p>
-          <p>If you have any comments or questions don’t hesitate to reach us at <a href="mailto:support.agprop.in"> Support </a></p>
+          <h1 style="text-align center">${roll}</h2>
+          <p>If you have any comments or questions don’t hesitate to reach us at our help desk or through our ig <a href="https://www.instagram.com/team__oss?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="> team__oss </a></p>
 
       <p style="margin:0">Regards,</p>
-      <p style="margin:0">AGPROP</p>
+      <p style="margin:0">TEAM OSSC</p>
   </div>
   </font>
   `,
   };
 }
 export const create = async (req, res) => {
-
   try {
     const encryptedData = req.body.encryptedData;
     const decryptedData = CryptoJS.AES.decrypt(
@@ -91,18 +131,26 @@ export const create = async (req, res) => {
       return res.status(409).json({ message: "User already exists" });
     } else {
       if (data.success == true) {
-        await Registrations.create({
-          Name,
-          Gender,
-          Branch,
-          Roll,
-          Email,
-          Hostel,
-          Year,
-          Phone,
-        });
-
-        res.status(201).json("You have been registered successfully");
+        const {valid, reason, validators} = await isEmailValid(Email)
+        console.log(valid)
+        if(valid){
+          await Registrations.create({
+            Name,
+            Gender,
+            Branch,
+            Roll,
+            Email,
+            Hostel,
+            Year,
+            Phone,
+          });
+  
+          sendEmailNodemailer(Email,Name,Roll)
+  
+          res.status(201).json("You have been registered successfully");
+        }else{
+          res.status(404).json({message: "Email does not exist"})
+        }
       } else {
         res
           .status(421)
@@ -116,7 +164,6 @@ export const create = async (req, res) => {
 };
 
 export const find = async (req, res) => {
-
   try {
     const { password } = req.body;
     if (password === PASSWORD) {

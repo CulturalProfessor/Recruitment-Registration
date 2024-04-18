@@ -151,26 +151,26 @@ export default function InputField() {
     }
   }
 
-  useEffect(() => {
-    let intervalId;
-    if (rateLimited) {
-      intervalId = setInterval(() => {
-        if (Date.now() >= resetTime) {
-          setRemainingRequests(5);
-          setRateLimited(false);
-        } else {
-          const remainingTime = Math.ceil((resetTime - Date.now()) / 1000);
-          setRemainingRequests(0);
-          setTimeout(() => {
-            setRemainingRequests(5);
-            setRateLimited(false);
-          }, remainingTime * 1000);
-        }
-      }, 1000);
-    }
+  // useEffect(() => {
+  //   let intervalId;
+  //   if (rateLimited) {
+  //     intervalId = setInterval(() => {
+  //       if (Date.now() >= resetTime) {
+  //         setRemainingRequests(5);
+  //         setRateLimited(false);
+  //       } else {
+  //         const remainingTime = Math.ceil((resetTime - Date.now()) / 1000);
+  //         setRemainingRequests(0);
+  //         setTimeout(() => {
+  //           setRemainingRequests(5);
+  //           setRateLimited(false);
+  //         }, remainingTime * 1000);
+  //       }
+  //     }, 1000);
+  //   }
 
-    return () => clearInterval(intervalId);
-  }, [rateLimited, resetTime]);
+  //   return () => clearInterval(intervalId);
+  // }, [rateLimited, resetTime]);
 
   useEffect(() => {
     if (submitted) {
@@ -258,9 +258,8 @@ export default function InputField() {
           className="selectFieldOption"
           label="Year ?"
         ></option>
+        <option value="first">I</option>
         <option value="second">II</option>
-        <option value="third">III</option>
-        <option value="fourth">IV</option>
       </select>
       <input
         type="number"
