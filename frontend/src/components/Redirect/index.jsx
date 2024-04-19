@@ -10,7 +10,7 @@ export default function Redirect() {
         <img src="../acm_crop.png" className="redirect_acm_logo" alt="acm_logo" />
       </div>
       <h2>Thanks for Your Response</h2>
-      <h2>Online registrations was a success, visit our help desk for workshop payment</h2>
+      <h2>Online registrations was a success, please visit our help desk for workshop payment</h2>
       <img src="/success.svg" id="redirectImage" />
     </div>
   );
