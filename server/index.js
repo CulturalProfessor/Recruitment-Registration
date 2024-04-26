@@ -10,20 +10,23 @@ dotenv.config();
 const origin = process.env.ORIGIN;
 const uri = process.env.MONGO_URI;
 const PORT = process.env.PORT || 5000;
-const corsOptions = {
-    origin: origin,
-    credentials: true, //access-control-allow-credentials:true
-    optionSuccessStatus: 200,
-  };
+// const corsOptions = {
+//   origin: origin,
+//   credentials: true,
+//   optionSuccessStatus: 200,
+// };
 const app = express();
 
+app.use(cors({
+  origin:"*",
+  credentials:true,
+}));
 app.use(ExpressMongoSanitize());
-app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", routes);
 app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
 mongoose
   .connect(uri, {

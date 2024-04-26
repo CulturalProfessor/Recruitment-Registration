@@ -6,9 +6,13 @@ import CryptoJS from "crypto-js";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
-const secretKey = import.meta.env.VITE_SECRET_KEY;
-const baseURL = import.meta.env.VITE_BASE_URL;
+const secretKey = "6Lf1Ur0pAAAAAF9gQw61G-mip8z0vp4q0Gh80S_e";
+const baseURL = "http://localhost:5000"
+const origin = import.meta.env.VITE_ORIGIN;
 axios.defaults.baseURL = baseURL;
+// console.log(recaptchaSiteKey)
+// console.log(baseURL)
+
 
 export default function InputField() {
   const [name, setName] = useState("");
@@ -18,12 +22,12 @@ export default function InputField() {
   const [phone, setPhone] = useState("");
   const [form, setForm] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [rateLimited, setRateLimited] = useState(false);
+  // const [rateLimited, setRateLimited] = useState(false);
   const [remainingRequests, setRemainingRequests] = useState(5);
   const [resetTime, setResetTime] = useState(Date.now());
   const [hostelOrDayScholar, setHostelOrDayScholar] = useState("");
   const [gender, setGender] = useState("");
-  const [domain, setDomain] = useState("");
+  const [year, setYear] = useState("");
   const reRecaptcha = useRef();
   const navigate = useNavigate();
 
@@ -33,6 +37,7 @@ export default function InputField() {
       setName(name);
       return true;
     }
+    return false;
   }
 
   function validateRoll(roll) {
@@ -49,26 +54,29 @@ export default function InputField() {
     const regex = /^[0-9]{10}$/;
     return regex.test(phone);
   }
+
   function validateBranch(branch) {
-    const regex = /^[a-zA-Z0-9\s-]+$/;
+    const regex = /^[a-zA-Z0-9\s()-]+$/;
     if (regex.test(branch)) {
       setBranch(branch);
       return true;
     }
+    return false;
   }
 
   async function handleForm() {
-    const token = await reRecaptcha.current.executeAsync();
+    const token = "6Lf1Ur0pAAAAAF9gQw61G-mip8z0vp4q0Gh80S_e"
+    // console.log(token)
 
     if (
-      name == "" ||
-      roll == "" ||
-      email == "" ||
-      branch == "" ||
-      phone == "" ||
-      hostelOrDayScholar == "" ||
-      domain == "" ||
-      gender == ""
+      name === "" ||
+      roll === "" ||
+      email === "" ||
+      branch === "" ||
+      phone === "" ||
+      hostelOrDayScholar === "" ||
+      year === "" ||
+      gender === ""
     ) {
       alert("Please fill all the fields");
       return;
@@ -95,11 +103,12 @@ export default function InputField() {
         Roll: roll,
         Email: email,
         Hostel: hostelOrDayScholar,
-        Domain: domain,
+        Year: year,
         Phone: phone,
         Token: token,
       };
       setForm(data);
+      console.log(secretKey)
       const dataToencrypt = data;
       const encryptedData = CryptoJS.AES.encrypt(
         JSON.stringify(dataToencrypt),
@@ -110,21 +119,21 @@ export default function InputField() {
         .post("/users", { encryptedData })
         .then((res) => {
           setSubmitted(true);
-          reRecaptcha.current.reset();
+          // reRecaptcha.current.reset();
           navigate("/redirect");
         })
         .catch((err) => {
           if (err.response && err.response.status === 429) {
             const reset = err.response.headers["x-ratelimit-reset"];
             setSubmitted(false);
-            alert("Too many request please wait a minute")
+            alert("Too many requests; please wait a minute");
             reRecaptcha.current.reset();
             setRateLimited(true);
             setResetTime(reset * 1000);
-          }else{
-            alert(err.response.data.message);
+          } else {
+            // alert(err.response.data.message);
             setSubmitted(false);
-            reRecaptcha.current.reset();
+            // reRecaptcha.current.reset();
           }
         });
     } else {
@@ -147,26 +156,26 @@ export default function InputField() {
     }
   }
 
-  useEffect(() => {
-    let intervalId;
-    if (rateLimited) {
-      intervalId = setInterval(() => {
-        if (Date.now() >= resetTime) {
-          setRemainingRequests(5);
-          setRateLimited(false);
-        } else {
-          const remainingTime = Math.ceil((resetTime - Date.now()) / 1000);
-          setRemainingRequests(0);
-          setTimeout(() => {
-            setRemainingRequests(5);
-            setRateLimited(false);
-          }, remainingTime * 1000);
-        }
-      }, 1000);
-    }
+  // useEffect(() => {
+  //   let intervalId;
+  //   // if (rateLimited) {
+  //   //   intervalId = setInterval(() => {
+  //   //     if (Date.now() >= resetTime) {
+  //   //       setRemainingRequests(5);
+  //   //       setRateLimited(false);
+  //   //     } else {
+  //   //       const remainingTime = Math.ceil((resetTime - Date.now()) / 1000);
+  //   //       setRemainingRequests(0);
+  //   //       setTimeout(() => {
+  //   //         setRemainingRequests(5);
+  //   //         setRateLimited(false);
+  //   //       }, remainingTime * 1000);
+  //   //     }
+  //   //   }, 1000);
+  //   // }
 
-    return () => clearInterval(intervalId);
-  }, [rateLimited, resetTime]);
+  //   return () => clearInterval(intervalId);
+  // }, [rateLimited, resetTime]);
 
   useEffect(() => {
     if (submitted) {
@@ -186,7 +195,7 @@ export default function InputField() {
       <input
         type="text"
         placeholder="Name"
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e) => validateName(e.target.value)}
         value={name}
         className="formField"
         label="Name"
@@ -225,7 +234,7 @@ export default function InputField() {
       <input
         type="text"
         placeholder="Branch"
-        onChange={(e) => setBranch(e.target.value)}
+        onChange={(e) => validateBranch(e.target.value)}
         value={branch}
         className="formField"
       />
@@ -245,17 +254,18 @@ export default function InputField() {
       </select>
       <select
         className="formField selectField"
-        onChange={(e) => setDomain(e.target.value)}
-        value={domain}
+        onChange={(e) => setYear(e.target.value)}
+        value={year}
       >
         <option
           value=""
           disabled
           className="selectFieldOption"
-          label="Domain ?"
+          label="Year ?"
         ></option>
-        <option value="Developer">Developer</option>
-        <option value="Designer">Designer</option>
+        <option value="second">II</option>
+        <option value="third">III</option>
+        <option value="fourth">IV</option>
       </select>
       <input
         type="number"
@@ -264,13 +274,13 @@ export default function InputField() {
         value={phone}
         className="formField"
       />
-      <ReCAPTCHA
+      {/* <ReCAPTCHA
         className="recaptcha"
         ref={reRecaptcha}
         size="invisible"
         sitekey={recaptchaSiteKey}
         type="image"
-      />
+      /> */}
       <button onClick={() => handleForm()} className="registerButton">
         Register
       </button>

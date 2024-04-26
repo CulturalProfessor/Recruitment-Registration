@@ -19,9 +19,10 @@
   border: 3px solid black;
   cursor: pointer;
 }
+
 .formField:hover {
   background-color: #f8f8f8;
-  box-shadow: #23e550 0px 0px 10px 0px;
+  box-shadow: #328ED6 0px 0px 10px 0px;
   transition: 0.25s ease-out;
 }
 
@@ -34,16 +35,16 @@
   margin: 1rem;
   padding: .6rem;
   border-radius: 0.5rem;
-  border: 2px solid #23e550;
+  border: 2px solid #328ED6;
   font-size: 1.5rem;
-  background-color: #2dba4e;
+  background-color: #328ED6;
   color: white;
   cursor: pointer;
 }
 .registerButton:hover {
-  background-color: #23e550;
+  background-color: #328ED6;
   color: white;
-  box-shadow: #23e550 0px 0px 10px 0px;
+  box-shadow: #1e89da 0px 0px 10px 0px;
   transition: 0.1s ease-out;
 }
 .selectField {
@@ -62,13 +63,14 @@
 @media screen and (max-width: 1000px) {
   .formField {
     font-size: 0.75rem;
+    padding: .3rem 0.75rem;
   }
   .registerButton{
     padding: .8rem;
     font-size: 1rem;
   }
   .selectField{
-    width: 125%;
+    width: 115%;
   }
 }
 

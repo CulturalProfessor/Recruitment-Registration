@@ -7,54 +7,24 @@ export default function FrontForm() {
     <div className="formbody">
       <div className="formHeading">
         <img src="../osslogo.png" className="logo" alt="logo" />
-        <h1 className="formHeadingElement">Team OSS </h1>
+        <h2 className="formHeadingElement">Team OSS & ACM AKGEC</h2>
+        <img src="../acm_crop.png" className="acm_logo" alt="acm_logo"/>
       </div>
-      <h2 className="formHeadingElement">Presents</h2>
-      <h1 className="formHeadingElement tracking-in-expand ">Recruitment'23</h1>
+      <h3 className="formHeadingElement">Presents</h3>
+      <h2 className="formHeadingElement tracking-in-expand ">Hour of Code 2.0</h2>
       <div className="eventDetailsContainer">
         <div className="eventDetails">
           <li className="list">
-            <h2>20th September</h2>
+            <h3>5th December</h3>
           </li>
           <li className="list">
-            <h2>4:00 PM - 7:00 PM</h2>
+            <h3>4:00 PM - 7:00 PM</h3>
           </li>
         </div>
         <li className="list">
-          <h2>4th Floor CS/IT Block</h2>
+          <h3>4th Floor CS/IT Block</h3>
         </li>
-        <div className="softwareImages">
-          <img
-            src="/linux.png"
-            className="softwareImageElement scale-in-center"
-          />
-          <img
-            src="/docker.png"
-            className="softwareImageElement scale-in-center"
-          />
-          <img
-            src="/github.png"
-            className="softwareImageElement scale-in-center"
-          />
-          <img
-            src="/kubernetes.png"
-            className="softwareImageElement  scale-in-center"
-          />
-          <img
-            src="/chromium.png"
-            className="softwareImageElement scale-in-center"
-          />
-          <img
-            src="/postgresql.png"
-            className="softwareImageElement scale-in-center "
-          />
-          <img
-            src="/flutter.png"
-            className="softwareImageElement scale-in-center"
-          />
-        </div>
-        <h3 className="notice">Please register yourself on HackerRank & Unstop with College Mail ID before test</h3>
-
+        <h3 className="notice">Please register yourself on HackerRank with College Mail ID before test</h3>
         <div className="kidsContainer">
           <img src="/kids.svg" alt="" id="kidsImage" />
           <InputField />
