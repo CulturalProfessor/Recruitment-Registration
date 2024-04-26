@@ -78,11 +78,11 @@ export const create = async (req, res) => {
 
     const { Name, Gender, Branch, Roll, Email, Phone, Year, Hostel, Token } =
       decryptedDataJSON;
-    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${Token}`;
-    const response = await fetch(url, {
-      method: "POST",
-    });
-    const data = await response.json();
+    // const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${Token}`;
+    // const response = await fetch(url, {
+    //   method: "POST",
+    // });
+    // const data = await response.json();
     const oldUser = await Registrations.findOne({
       $or: [{ Email }, { Phone }, { Roll }],
     });
@@ -90,7 +90,7 @@ export const create = async (req, res) => {
     if (oldUser) {
       return res.status(409).json({ message: "User already exists" });
     } else {
-      if (data.success == true) {
+      // if (data.success == true) {
         await Registrations.create({
           Name,
           Gender,
@@ -103,12 +103,22 @@ export const create = async (req, res) => {
         });
 
         res.status(201).json("You have been registered successfully");
-      } else {
-        res
-          .status(421)
-          .json({ message: "Please verify that you are not a robot" });
-      }
+      // } else {
+      //   res
+      //     .status(421)
+      //     .json({ message: "Please verify that you are not a robot" });
+      // }
     }
+    // await Registrations.create({
+    //   Name,
+    //   Gender,
+    //   Branch,
+    //   Roll,
+    //   Email,
+    //   Hostel,
+    //   Year,
+    //   Phone,
+    // });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
