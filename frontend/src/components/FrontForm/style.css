@@ -1,3 +1,40 @@
+#poster{
+  width: 68vh;
+}
+
+.poster{
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 640px){
+  #poster{
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    /* margin-top: 100vh; */
+  }
+  img{
+    object-fit: contain;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .formbody {
   display: flex;
   width: 100%;

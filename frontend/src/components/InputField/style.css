@@ -1,7 +1,7 @@
 .formFieldContainer {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   padding: .8rem;
 }
@@ -24,6 +24,34 @@
   background-color: #f8f8f8;
   box-shadow: #328ED6 0px 0px 10px 0px;
   transition: 0.25s ease-out;
+}
+
+.formFields:hover {
+  background-color: #f8f8f8;
+  box-shadow: #328ED6 0px 0px 10px 0px;
+  transition: 0.25s ease-out;
+}
+
+.checkbox:hover {
+  background-color: #f8f8f8;
+  box-shadow: #328ED6 0px 0px 10px 0px;
+  transition: 0.25s ease-out;
+}
+
+.checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: .6rem 1.5rem;
+  outline: none;
+  margin: 0.25rem;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  border: 3px solid black;
+  cursor: pointer;
 }
 
 .registerButton {
@@ -52,6 +80,11 @@
   background-color: white;
   
 }
+.selectFields {
+  width: 120%;
+  background-color: white;
+  
+}
 .selectFieldOption ::placeholder{
   color:grey;
 }
@@ -62,6 +95,10 @@
 
 @media screen and (max-width: 1000px) {
   .formField {
+    font-size: 0.75rem;
+    padding: .3rem 0.75rem;
+  }
+  .checkbox {
     font-size: 0.75rem;
     padding: .3rem 0.75rem;
   }

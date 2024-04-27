@@ -3,13 +3,16 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
 import CryptoJS from "crypto-js";
+import Select from "react-select"
+import {MultiSelect} from "react-multi-select-component";
 import ReCAPTCHA from "react-google-recaptcha";
-
 const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 const secretKey = "6Lf1Ur0pAAAAAF9gQw61G-mip8z0vp4q0Gh80S_e";
 const baseURL = "http://localhost:5000"
 const origin = import.meta.env.VITE_ORIGIN;
 axios.defaults.baseURL = baseURL;
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // console.log(recaptchaSiteKey)
 // console.log(baseURL)
 
@@ -23,6 +26,7 @@ export default function InputField() {
   const [form, setForm] = useState("");
   const [submitted, setSubmitted] = useState(false);
   // const [rateLimited, setRateLimited] = useState(false);
+  const [interest,setInterest] = useState("")
   const [remainingRequests, setRemainingRequests] = useState(5);
   const [resetTime, setResetTime] = useState(Date.now());
   const [hostelOrDayScholar, setHostelOrDayScholar] = useState("");
@@ -108,6 +112,7 @@ export default function InputField() {
         Token: token,
       };
       setForm(data);
+      console.log(data)
       console.log(secretKey)
       const dataToencrypt = data;
       const encryptedData = CryptoJS.AES.encrypt(
@@ -120,7 +125,7 @@ export default function InputField() {
         .then((res) => {
           setSubmitted(true);
           // reRecaptcha.current.reset();
-          navigate("/redirect");
+          // navigate("/redirect");
         })
         .catch((err) => {
           if (err.response && err.response.status === 429) {
@@ -190,6 +195,22 @@ export default function InputField() {
     }
   }, [submitted]);
 
+  const options = [
+    {value:"Html,Css", label:"HTML & CSS"},
+    {value:"javascript", label:"Javascript"},
+    {value:"python", label:"Python"},
+    {value:"c/c++", label:"C/C++"},
+    {value:"flutter", label:"Flutter"},
+    {value:"nodejs", label:"Node.js"},
+    {value:"reactjs", label:"React.js"}
+  ]
+
+  const colorStyles ={
+    control: (styles) =>({...styles,
+      width: "150%"
+    })
+  }
+
   return (
     <div className="formFieldContainer">
       <input
@@ -231,6 +252,7 @@ export default function InputField() {
         value={email}
         className="formField"
       />
+      {/* <FontAwesomeIcon icon="fa-duotone fa-user" /> */}
       <input
         type="text"
         placeholder="Branch"
@@ -238,6 +260,50 @@ export default function InputField() {
         value={branch}
         className="formField"
       />
+
+      {/* <MultiSelect 
+        options={options}
+        value={interest}
+        onChange={setInterest}
+      /> */}
+
+      <div className="checkbox">
+      <div>
+      Tech stack you are familiar with:
+        <p>
+      <input type="checkbox" />HTML & CSS
+        </p>
+        <p>
+      <input type="checkbox" />Javascript
+        </p>
+        <p>
+      <input type="checkbox" />C/C++
+        </p>
+        <p>
+      <input type="checkbox" />Python
+        </p>
+        <p>
+      <input type="checkbox" />Flutter
+        </p>
+        <p>
+      <input type="checkbox" />React.js
+        </p>
+        <p>
+      <input type="checkbox" />Node.js
+        </p>
+      </div>
+      </div>
+
+      {/* <Select
+        // className="formFields selectFields"
+        styles = { colorStyles }
+        options={options}
+        defaultValue={interest}
+        placeholder="Familiar tech stack"
+        isMulti
+        onChange={setInterest}
+        autosize={false}
+      /> */}
       <select
         className="formField selectField"
         onChange={(e) => setHostelOrDayScholar(e.target.value)}
