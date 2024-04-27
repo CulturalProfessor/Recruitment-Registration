@@ -9,7 +9,7 @@ const studentSchema = mongoose.Schema({
   Hostel: { type: String, required: true },
   Year: { type: String, required: true },
   Phone: { type: String, required: true, unique: true },
-  Interest: { type: String },
+  Interest: [{ type: String }],
 });
 
 const Registrations = mongoose.model("Registration", studentSchema);

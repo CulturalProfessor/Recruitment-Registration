@@ -22,7 +22,7 @@ const registrationSchema = Joi.object({
   Year: Joi.string().required(),
   Phone: Joi.string().length(10).required(),
   Token: Joi.string().required(),
-  Interest: Joi.string()
+  Interest: Joi.array().items(Joi.string())
 });
 
 //function for sending  mail by nodemailer
@@ -105,25 +105,29 @@ function getEmail() {
 }
 export const create = async (req, res) => {
   try {
+    // console.log(req.body);
     const encryptedData = req.body.encryptedData;
     const decryptedData = CryptoJS.AES.decrypt(
       encryptedData,
       secretKey
     ).toString(CryptoJS.enc.Utf8);
+    // console.log(decryptedData);
     const decryptedDataJSON = JSON.parse(decryptedData);
-
+    console.log(decryptedDataJSON);
     const { error } = registrationSchema.validate(decryptedDataJSON);
+    console.log(error);
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
+    console.log(decryptedDataJSON);
 
-    const { Name, Gender, Branch, Roll, Email, Phone, Year, Hostel, Token } =
+    const { Name, Gender, Branch, Roll, Email, Phone, Year, Hostel, Token,Interest } =
       decryptedDataJSON;
-    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${Token}`;
-    const response = await fetch(url, {
-      method: "POST",
-    });
-    const data = await response.json();
+    // const url = https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${Token};
+    // const response = await fetch(url, {
+    //   method: "POST",
+    // });
+    // const data = await response.json();
     const oldUser = await Registrations.findOne({
       $or: [{ Email }, { Phone }, { Roll }],
     });
@@ -131,12 +135,12 @@ export const create = async (req, res) => {
     if (oldUser) {
       return res.status(409).json({ message: "User already exists" });
     } else {
-      if (data.success == true) {
+      // if (data.success == true) {
         const {valid, reason, validators} = await isEmailValid(Email)
         console.log(valid)
-        console.log(data)
+        // console.log(data)
         if(valid){
-          await Registrations.create({
+          const result = await Registrations.create({
             Name,
             Gender,
             Branch,
@@ -147,23 +151,24 @@ export const create = async (req, res) => {
             Phone,
             Interest
           });
-  
+         console.log(result)
           sendEmailNodemailer(Email,Name,Roll)
   
           res.status(201).json("You have been registered successfully");
         }else{
+          console.log("Success")
           res.status(404).json({message: "Email does not exist"})
         }
-      } else {
-        res
-          .status(421)
-          .json({ message: "Please verify that you are not a robot" });
-      }
+      // } else {
+      //   res
+      //     .status(421)
+      //     .json({ message: "Please verify that you are not a robot" });
+      // }
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: error.message });
-  }
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const find = async (req, res) => {

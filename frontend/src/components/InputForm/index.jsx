@@ -109,6 +109,7 @@ export default function InputForm() {
         Interest: interest,
       };
       setForm(data);
+      console.log(data.Interest)
       // console.log(secretKey);
       const dataToencrypt = data;
       const encryptedData = CryptoJS.AES.encrypt(
@@ -119,12 +120,10 @@ export default function InputForm() {
       axios
       .post("/users", { encryptedData })
       .then((res) => {
-          console.log(req)
-          console.log(req)
           setSubmitted(true);
           console.log("post successful")
           // reRecaptcha.current.reset();
-          // navigate("/redirect");
+          navigate("/redirect");
         })
         .catch((err) => {
           if (err.response && err.response.status === 429) {
@@ -135,7 +134,7 @@ export default function InputForm() {
             setRateLimited(true);
             setResetTime(reset * 1000);
           } else {
-            // alert(err.response.data.message);
+            alert(err.response.data.message);
             setSubmitted(false);
             // reRecaptcha.current.reset();
           }
@@ -200,6 +199,8 @@ export default function InputForm() {
     const value = e.target.value;
     if (flag) {
       setInterest([...interest, value]);
+    }else{
+      setInterest([...interest.filter(tech => tech!==value)])
     }
   };
 
@@ -367,13 +368,7 @@ export default function InputForm() {
               <div className="tech">
                 <label htmlFor="circle-1">
                   <span className="circle one"></span>
-                  <span className="male">HTML&CSS</span>
-                </label>
-              </div>
-              <div className="tech">
-                <label htmlFor="circle-2">
-                  <span className="circle two"></span>
-                  <span className="male">Javascript</span>
+                  <span className="male">HTML,CSS&Javascript</span>
                 </label>
               </div>
               <div className="tech">
